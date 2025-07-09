@@ -320,7 +320,7 @@ export default function Home() {
           {/* Left: Text about SuperBridge, visually connected to bridge interface */}
           <div className="flex-1 flex flex-col gap-6 justify-center z-10">
             <h3 className="text-xl font-bold text-white mb-2"><span className="text-yellow-400">SuperBridge</span>: The Future of Asset Movement</h3>
-            <p className="text-white/80 text-base"><span className="text-yellow-400">SuperBridge</span> is Pepu Bank's next-generation cross-chain bridge, enabling seamless, secure, and lightning-fast transfers of assets between networks. With industry-leading security, low fees, and a user-friendly experience, <span className="text-yellow-400">SuperBridge</span> empowers you to move your assets with confidence.</p>
+            <p className="text-white/80 text-base"><span className="text-yellow-400">SuperBridge</span> is Pepu Bank&#39;s next-generation cross-chain bridge, enabling seamless, secure, and lightning-fast transfers of assets between networks. With industry-leading security, low fees, and a user-friendly experience, <span className="text-yellow-400">SuperBridge</span> empowers you to move your assets with confidence.</p>
             <ul className="list-disc list-inside text-white/70 text-sm pl-2">
               <li>Instant bridging between supported chains</li>
               <li>Low fees, high reliability</li>
