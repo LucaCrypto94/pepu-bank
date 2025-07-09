@@ -479,7 +479,7 @@ export default function Home() {
               className="bg-[#181b1c]/80 rounded-xl shadow-lg p-6 border-2 border-yellow-400 text-left w-full"
             >
               <div className="font-bold text-white mb-2">{item.q}</div>
-              <div className="text-white/80 text-base">{item.a.replace("'", "&apos;")}</div>
+              <div className="text-white/80 text-base">{item.a.replace(/'/g, "&apos;")}</div>
             </motion.div>
           ))}
         </motion.div>
