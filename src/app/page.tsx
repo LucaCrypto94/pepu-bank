@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { ShieldCheck, Zap, Users, Globe2, Star, Users as UsersIcon, ArrowRightLeft, DollarSign, Clock } from "lucide-react";
+import { ArrowRightLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 const navLinks = [
@@ -18,23 +18,7 @@ const exploreLinks = [
   { name: "penk market", href: "#penkmarket" },
 ];
 
-// AnimatedNumber component for animated counting
-function AnimatedNumber({ value, duration = 1200, format = (v: number) => v }: { value: number, duration?: number, format?: (v: number) => React.ReactNode }) {
-  const [display, setDisplay] = useState(0);
-  useEffect(() => {
-    let start = 0;
-    let startTime: number | null = null;
-    function animate(ts: number) {
-      if (!startTime) startTime = ts;
-      const progress = Math.min((ts - (startTime as number)) / duration, 1);
-      setDisplay(Math.floor(progress * (value - start) + start));
-      if (progress < 1) requestAnimationFrame(animate);
-      else setDisplay(value);
-    }
-    requestAnimationFrame(animate);
-  }, [value, duration]);
-  return <span>{format(display)}</span>;
-}
+// (AnimatedNumber is not used and has been removed)
 
 // Countdown component for SuperBridge launch
 function Countdown({ targetDate, small = false, hideComingSoon = false }: { targetDate: Date, small?: boolean, hideComingSoon?: boolean }) {
@@ -495,7 +479,7 @@ export default function Home() {
               className="bg-[#181b1c]/80 rounded-xl shadow-lg p-6 border-2 border-yellow-400 text-left w-full"
             >
               <div className="font-bold text-white mb-2">{item.q}</div>
-              <div className="text-white/80 text-base">{item.a}</div>
+              <div className="text-white/80 text-base">{item.a.replace("'", "&apos;")}</div>
             </motion.div>
           ))}
         </motion.div>
