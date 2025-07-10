@@ -20,7 +20,7 @@ export async function GET() {
     }
     // result is a string of the balance in the token's smallest unit (usually wei)
     return NextResponse.json({ balance: data.result });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch token balance' }, { status: 500 });
   }
 } 

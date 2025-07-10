@@ -60,13 +60,6 @@ export default function Home() {
   const [exploreOpen, setExploreOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
-  // Bridge state
-  const [fromNetwork, setFromNetwork] = useState("Pepe Unchained V2");
-  const [toNetwork, setToNetwork] = useState("Ethereum");
-  const networks = [
-    { name: "Pepe Unchained V2", icon: "/peuchain-logo.jpg" },
-    { name: "Ethereum", icon: "/ethereum-logo.png" },
-  ];
 
   // Token balance state
   const [tokenBalance, setTokenBalance] = useState<string | null>(null);
@@ -88,7 +81,7 @@ export default function Home() {
         } else {
           setBalanceError("Error fetching balance");
         }
-      } catch (e) {
+      } catch {
         setBalanceError("Error fetching balance");
       } finally {
         setBalanceLoading(false);

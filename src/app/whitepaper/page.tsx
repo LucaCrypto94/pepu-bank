@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Whitepaper() {
   return (
@@ -60,12 +61,12 @@ export default function Whitepaper() {
         </div>
         
         <div className="mt-8 text-center">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center px-4 py-2 bg-yellow-400 text-black font-bold rounded-full hover:bg-yellow-300 transition-colors text-sm"
           >
             ← Back to Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>
