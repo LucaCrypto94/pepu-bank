@@ -13,9 +13,9 @@ const navLinks = [
 ];
 
 const exploreLinks = [
-  { name: "penking", href: "#penking" },
-  { name: "penkgame", href: "#penkgame" },
-  { name: "penk market", href: "#penkmarket" },
+  { name: "Penking", href: "#penking" },
+  { name: "Penkgame", href: "#penkgame" },
+  { name: "Penk Market", href: "#penkmarket" },
 ];
 
 // (AnimatedNumber is not used and has been removed)
