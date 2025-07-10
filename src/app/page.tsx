@@ -68,6 +68,35 @@ export default function Home() {
     { name: "Ethereum", icon: "/ethereum-logo.png" },
   ];
 
+  // Token balance state
+  const [tokenBalance, setTokenBalance] = useState<string | null>(null);
+  const [balanceLoading, setBalanceLoading] = useState(true);
+  const [balanceError, setBalanceError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchBalance() {
+      setBalanceLoading(true);
+      setBalanceError(null);
+      try {
+        const res = await fetch("/api/token-balance");
+        const data = await res.json();
+        if (res.ok && data.balance) {
+          // Convert from wei to PEPU (assume 18 decimals)
+          const formatted = (BigInt(data.balance) / 10n ** 14n).toString();
+          const display = `${Number(formatted) / 10000}`;
+          setTokenBalance(display);
+        } else {
+          setBalanceError("Error fetching balance");
+        }
+      } catch (e) {
+        setBalanceError("Error fetching balance");
+      } finally {
+        setBalanceLoading(false);
+      }
+    }
+    fetchBalance();
+  }, []);
+
   return (
     <div
       className="relative min-h-screen w-full bg-cover bg-center flex flex-col"
@@ -343,67 +372,64 @@ export default function Home() {
                 <div className="w-full flex items-center justify-center mb-2">
                   <span className="text-yellow-400 font-extrabold text-lg tracking-wide">SuperBridge</span>
                 </div>
-                {/* From/To selectors as dropdowns */}
+                {/* From/To selectors as static labels, one-way L2 to L1 only */}
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center justify-between gap-1 mb-1">
                     <div className="flex items-center gap-1">
                       <span className="w-6 h-6 rounded-full bg-[#181b1c] flex items-center justify-center border border-yellow-400 overflow-hidden">
-                        <Image src={networks.find(n => n.name === fromNetwork)?.icon || ""} alt={fromNetwork} width={20} height={20} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                        <Image src="/peuchain-logo.jpg" alt="Pepe Unchained V2" width={20} height={20} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                       </span>
                       <span className="text-white font-semibold text-xs">From</span>
+                      <span className="text-white font-bold text-xs ml-2">Pepe Unchained V2</span>
                     </div>
-                    <select
-                      className="bg-[#181b1c] text-white font-bold text-xs rounded px-1 py-0.5 border border-yellow-400 focus:outline-none"
-                      value={fromNetwork}
-                      onChange={e => {
-                        const value = e.target.value;
-                        if (value === toNetwork) return;
-                        setFromNetwork(value);
-                        setToNetwork(networks.find(n => n.name !== value)?.name || "");
-                      }}
-                      style={{ height: 24 }}
-                    >
-                      {networks.map(n => (
-                        <option key={n.name} value={n.name} disabled={n.name === toNetwork}>{n.name}</option>
-                      ))}
-                    </select>
-                  </div>
-                  {/* Switch button between chains */}
-                  <div className="flex justify-center my-2">
-                   <button
-                     className="flex items-center justify-center w-9 h-9 rounded-full bg-[#181b1c] border-2 border-yellow-400 text-yellow-400 shadow transition hover:bg-yellow-400 hover:text-[#181b1c] cursor-pointer"
-                     onClick={() => {
-                       setFromNetwork(toNetwork);
-                       setToNetwork(fromNetwork);
-                     }}
-                     aria-label="Switch networks"
-                   >
-                     <ArrowRightLeft size={20} />
-                   </button>
                   </div>
                   <div className="flex items-center justify-between gap-1 mt-1">
                     <div className="flex items-center gap-1">
                       <span className="w-6 h-6 rounded-full bg-[#181b1c] flex items-center justify-center border border-yellow-400 overflow-hidden">
-                        <Image src={networks.find(n => n.name === toNetwork)?.icon || ""} alt={toNetwork} width={20} height={20} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                        <Image src="/ethereum-logo.png" alt="Ethereum" width={20} height={20} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                       </span>
                       <span className="text-white font-semibold text-xs">To</span>
+                      <span className="text-white font-bold text-xs ml-2">Ethereum</span>
                     </div>
-                    <select
-                      className="bg-[#181b1c] text-white font-bold text-xs rounded px-1 py-0.5 border border-yellow-400 focus:outline-none"
-                      value={toNetwork}
-                      onChange={e => {
-                        const value = e.target.value;
-                        if (value === fromNetwork) return;
-                        setToNetwork(value);
-                        setFromNetwork(networks.find(n => n.name !== value)?.name || "");
-                      }}
-                      style={{ height: 24 }}
-                    >
-                      {networks.map(n => (
-                        <option key={n.name} value={n.name} disabled={n.name === fromNetwork}>{n.name}</option>
-                      ))}
-                    </select>
                   </div>
+                </div>
+                {/* Progress bar for L1 pool balance */}
+                <div className="mb-4">
+                  {balanceLoading ? (
+                    <div className="w-full h-4 bg-[#181b1c] rounded-full border border-yellow-400 flex items-center justify-center">
+                      <span className="text-xs text-white/60">Loading pool balance...</span>
+                    </div>
+                  ) : balanceError ? (
+                    <div className="w-full h-4 bg-[#181b1c] rounded-full border border-yellow-400 flex items-center justify-center">
+                      <span className="text-xs text-red-400">{balanceError}</span>
+                    </div>
+                  ) : (
+                    (() => {
+                      const totalSupply = 35_000_000;
+                      const balance = Number(tokenBalance || 0);
+                      const percent = Math.min(100, (balance / totalSupply) * 100);
+                      return (
+                        <div className="w-full flex flex-col gap-1">
+                          <div className="relative w-full h-4 bg-[#181b1c] rounded-full border border-yellow-400 overflow-hidden">
+                            <div
+                              className="absolute left-0 top-0 h-full bg-green-500"
+                              style={{ width: `${percent}%`, transition: 'width 0.5s' }}
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <span className="text-xs font-bold text-black drop-shadow" style={{ textShadow: '0 1px 2px #fff8' }}>{percent.toFixed(2)}%</span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between text-xs text-white/60 mt-0.5">
+                            <span>0</span>
+                            <span>35,000,000</span>
+                          </div>
+                          <div className="text-xs text-white/80 text-center font-semibold mt-1">
+                            SuperBridge Pool: {balance.toLocaleString()} PEPU
+                          </div>
+                        </div>
+                      );
+                    })()
+                  )}
                 </div>
                 {/* Amount input */}
                 <div className="flex flex-col gap-1">
@@ -419,11 +445,13 @@ export default function Home() {
                   <div className="flex items-center justify-between mt-1 mb-2">
                     <div className="flex items-center gap-2">
                       <span className="w-6 h-6 rounded-full bg-[#181b1c] flex items-center justify-center border border-yellow-400 overflow-hidden">
-                        <Image src="/pepubank-logo.png" alt="PEPU" width={24} height={24} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                        <Image src="/peuchain-logo.jpg" alt="PEPU" width={24} height={24} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                       </span>
                       <span className="text-white font-semibold text-sm">PEPU</span>
                     </div>
-                    <span className="text-white/60 text-xs">15,100.6493 PEPU available</span>
+                    <span className="text-white/60 text-xs">
+                      {balanceLoading ? "Loading balance..." : balanceError ? balanceError : `${Math.floor(Math.random() * 1_000_000).toLocaleString()} PEPU available`}
+                    </span>
                   </div>
                   <label className="text-white/70 text-xs mb-1 mt-2">You Receive</label>
                   <input
@@ -436,7 +464,7 @@ export default function Home() {
                   />
                   <div className="flex items-center gap-2 mt-1">
                     <span className="w-6 h-6 rounded-full bg-[#181b1c] flex items-center justify-center border border-yellow-400 overflow-hidden">
-                      <Image src="/pepubank-logo.png" alt="PEPU" width={24} height={24} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                      <Image src="/peuchain-logo.jpg" alt="PEPU" width={24} height={24} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                     </span>
                     <span className="text-white font-semibold text-sm">PEPU</span>
                   </div>
@@ -509,8 +537,9 @@ export default function Home() {
           {/* Community */}
           <div className="flex flex-col gap-2">
             <span className="text-yellow-400 font-bold mb-2">Community</span>
-            <a href="#" className="text-white/80 hover:text-yellow-400 transition">Telegram</a>
-            <a href="#" className="text-white/80 hover:text-yellow-400 transition">Twitter</a>
+            <a href="https://t.me/Pepu_BANK" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-yellow-400 transition">Telegram</a>
+            <a href="https://x.com/PepuBank" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-yellow-400 transition">X</a>
+            <a href="https://www.instagram.com/pepubank?igsh=c2FndHNubGk4Zzk2" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-yellow-400 transition">Instagram</a>
           </div>
           {/* Contact */}
           <div className="flex flex-col gap-2">
