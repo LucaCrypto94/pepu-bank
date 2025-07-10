@@ -549,6 +549,7 @@ export default function Home() {
           </div>
         </div>
         <div className="text-white/40 text-xs text-center mt-8">&copy; {new Date().getFullYear()} Pepu Bank. All rights reserved.</div>
+        <div className="text-white/40 text-xs text-center mt-2">Not financial advice. Cryptocurrency involves risk. Do your own research.</div>
       </footer>
     </div>
   );
