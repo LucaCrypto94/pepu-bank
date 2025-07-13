@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const sections = [
   { id: "executive-summary", label: "🟧 Executive Summary" },
@@ -98,7 +99,7 @@ export default function Whitepaper() {
       {/* Main Content */}
       <main className="flex-1 max-w-3xl mx-auto px-4 py-8 md:py-16 md:ml-0 pt-16 md:pt-8" style={{ scrollBehavior: 'smooth' }}>
         <div className="flex justify-center mb-6">
-          <img src="/logo_pepu_bank.jpg" alt="Pepu Bank Logo" className="h-32 w-auto rounded shadow-lg border border-yellow-400 bg-[#181b1c] p-2" />
+          <Image src="/logo_pepu_bank.jpg" alt="Pepu Bank Logo" width={128} height={128} className="h-32 w-auto rounded shadow-lg border border-yellow-400 bg-[#181b1c] p-2" />
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold text-yellow-400 mb-8 text-center">Pepu Bank Whitepaper</h1>
         <section id="executive-summary" className="mb-12 scroll-mt-24">

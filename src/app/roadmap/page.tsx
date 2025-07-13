@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 function Roadmap() {
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center">
