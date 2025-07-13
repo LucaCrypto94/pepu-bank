@@ -105,7 +105,7 @@ export default function Whitepaper() {
         <section id="executive-summary" className="mb-12 scroll-mt-24">
           <h2 className="text-2xl font-bold text-yellow-400 mb-4">🟧 Executive Summary</h2>
           <p className="mb-4">The bridge to financial freedom? Start with PEPU BANK.<br/>
-          PEPU BANK was born to offer solidity, speed, and creativity in the decentralized world. With a SuperBridge that eliminates waiting times and with exclusive services for those who hold $PENK, we position ourselves as the real alternative to the limits of Pepe Unchained's Layer 2.<br/>
+          PEPU BANK was born to offer solidity, speed, and creativity in the decentralized world. With a SuperBridge that eliminates waiting times and with exclusive services for those who hold $PENK, we position ourselves as the real alternative to the limits of Pepe Unchained&apos;s Layer 2.<br/>
           Our vision? Building a meme-banking infrastructure that combines technology, community and fun.</p>
           <p className="mb-4">PEPU BANK is a next-gen decentralized protocol built on the new Pepe Unchained Layer 2 network, powered by the utility token $PENK. Our mission is to deliver seamless access to the PEPU ecosystem through tools like the SuperBridge, L2-native token purchases, and gamified community features.</p>
           <p className="mb-4">We believe in tech for the people — focused on ease of use, fairness, and community ownership.</p>
