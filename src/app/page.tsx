@@ -542,8 +542,8 @@ export default function Home() {
           {/* Contact */}
           <div className="flex flex-col gap-2">
             <span className="text-yellow-400 font-bold mb-2">Contact</span>
-            <a href="#" className="text-white/80 hover:text-yellow-400 transition">Support</a>
-            <a href="#" className="text-white/80 hover:text-yellow-400 transition">Email</a>
+            <a href="https://t.me/Pepu_BANK" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-yellow-400 transition">Support</a>
+            <a href="mailto:pepubankteam@gmail.com" className="text-white/80 hover:text-yellow-400 transition">Email</a>
           </div>
         </div>
         <div className="text-white/40 text-xs text-center mt-8">&copy; {new Date().getFullYear()} Pepu Bank. All rights reserved.</div>

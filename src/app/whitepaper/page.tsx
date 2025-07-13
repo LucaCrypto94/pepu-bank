@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ArrowRightLeft } from "lucide-react";
+import { motion } from "framer-motion";
 
 const sections = [
   { id: "executive-summary", label: "🟧 Executive Summary" },
@@ -18,6 +20,23 @@ const sections = [
 
 export default function Whitepaper() {
   const [active, setActive] = useState(sections[0].id);
+  const [exploreOpen, setExploreOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
+
+  const navLinks = [
+    { name: "RoadMap", href: "/roadmap" },
+    { name: "Whitepaper", href: "/whitepaper" },
+    { name: "How2Penk", href: "#how2penk-section" },
+    { name: "About", href: "#about" },
+  ];
+
+  const exploreLinks = [
+    { name: "Penking", href: "#penking" },
+    { name: "Penkgame", href: "#penkgame" },
+    { name: "Penk Market", href: "#penkmarket" },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       const offsets = sections.map(s => {
@@ -37,17 +56,149 @@ export default function Whitepaper() {
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col md:flex-row">
-      {/* Mobile Header */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-[#101112] border-b border-yellow-400 px-4 py-3">
-        <button 
-          className="bg-yellow-400 text-black font-bold px-3 py-2 rounded shadow-lg" 
-          onClick={() => setSidebarOpen(true)}
-        >
-          ☰ Contents
-        </button>
-      </header>
+      {/* Fixed Header */}
+      <div className="fixed top-0 left-0 right-0 z-10 w-full bg-black/80 backdrop-blur-md border-b border-yellow-500/20 md:left-64">
+        {/* Desktop Header (nav center, connect right) */}
+        <div className="hidden sm:flex items-center w-full justify-start px-40 gap-x-8 py-3">
+          {/* Nav rectangle, only as wide as content */}
+          <div className="inline-flex bg-[#181b1c] bg-opacity-95 border border-yellow-500/60 shadow items-center justify-start px-4 py-1 max-w-xl h-12 backdrop-blur-md" style={{ borderRadius: '0px', borderWidth: '2px' }}>
+            <nav className="flex items-center gap-3 text-white font-medium text-xs sm:text-sm">
+              <div className="relative">
+                <button
+                  className="text-white font-medium text-sm px-2 py-1 hover:text-yellow-400 focus:outline-none flex items-center gap-1"
+                  onClick={() => setExploreOpen((v) => !v)}
+                  onBlur={() => setTimeout(() => setExploreOpen(false), 150)}
+                >
+                  Explore
+                  <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                {exploreOpen && (
+                  <div className="absolute left-0 mt-1 w-36 bg-[#232526] border border-yellow-500/40 shadow-lg text-left rounded py-1 z-30">
+                    {exploreLinks.map((item) => (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors"
+                      >
+                        {item.name}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <a
+                href="#superbridge"
+                className="hover:text-yellow-400 transition-colors duration-200"
+              >
+                SuperBridge
+              </a>
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="hover:text-yellow-400 transition-colors duration-200"
+                >
+                  {link.name}
+                </a>
+              ))}
+            </nav>
+          </div>
+          {/* Connect at far right */}
+          <div className="flex items-center">
+            <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-3 py-1 rounded transition-colors shadow border border-yellow-600/60 text-xs sm:text-sm">
+              Connect
+            </button>
+          </div>
+        </div>
+        {/* Mobile Header (simplified for sidebar compatibility) */}
+        <div className="flex sm:hidden items-center w-full justify-between py-3 px-4">
+          <div className="flex items-center gap-2">
+            <Image
+              src="/pepubank-logo.png"
+              alt="Pepu Bank Logo"
+              width={40}
+              height={14}
+              className="shadow"
+              priority
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-3 py-1 rounded transition-colors shadow border border-yellow-600/60 text-xs">
+              Connect
+            </button>
+            {/* Mobile sidebar toggle button */}
+            <button
+              className="bg-yellow-400 text-black font-bold px-3 py-1 rounded shadow-lg text-xs"
+              onClick={() => setSidebarOpen(true)}
+            >
+              ☰ Contents
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* Mobile Sidebar (full screen, expandable Explore, logo at top) */}
+      {mobileNavOpen && (
+        <div className="fixed inset-0 z-40 flex sm:hidden">
+          {/* Sidebar (full screen) */}
+          <div className="w-full bg-[#181b1c] border-r border-yellow-500/30 flex flex-col">
+            {/* Logo at top */}
+            <div className="flex items-center justify-between p-4 border-b border-yellow-500/30">
+              <Image
+                src="/pepubank-logo.png"
+                alt="Pepu Bank Logo"
+                width={40}
+                height={14}
+                className="shadow"
+              />
+              <button
+                className="text-yellow-500 text-2xl font-bold"
+                onClick={() => setMobileNavOpen(false)}
+              >
+                &times;
+              </button>
+            </div>
+            {/* Mobile nav links */}
+            <nav className="flex-1 flex flex-col p-4 space-y-4">
+              <div className="space-y-2">
+                <div className="text-yellow-400 font-bold text-sm mb-2">Explore</div>
+                {exploreLinks.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+              <div className="space-y-2">
+                <div className="text-yellow-400 font-bold text-sm mb-2">Navigation</div>
+                <a
+                  href="#superbridge"
+                  className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                  onClick={() => setMobileNavOpen(false)}
+                >
+                  SuperBridge
+                </a>
+                {navLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
+
       {/* Sidebar */}
-      <aside className={`hidden md:flex flex-col bg-[#101112] md:w-64 w-64 h-screen sticky top-0 z-20 border-r border-yellow-400`}>
+      <aside className={`hidden md:flex flex-col bg-[#101112] md:w-64 w-64 h-screen sticky top-0 z-30 border-r border-yellow-400`}>
         <div className="flex flex-col h-full">
           <div className="px-6 pt-8 pb-4">
             <span className="text-yellow-400 font-bold text-lg tracking-wide uppercase whitespace-nowrap block">Table of Contents</span>
@@ -97,160 +248,320 @@ export default function Whitepaper() {
         </div>
       </aside>
       {/* Main Content */}
-      <main className="flex-1 max-w-3xl mx-auto px-4 py-8 md:py-16 md:ml-0 pt-16 md:pt-8" style={{ scrollBehavior: 'smooth' }}>
+      <main className="flex-1 max-w-4xl mx-auto px-4 py-8 md:py-16 md:ml-0 pt-24 md:pt-20" style={{ scrollBehavior: 'smooth' }}>
         <div className="flex justify-center mb-6">
           <Image src="/logo_pepu_bank.jpg" alt="Pepu Bank Logo" width={128} height={128} className="h-32 w-auto rounded shadow-lg border border-yellow-400 bg-[#181b1c] p-2" />
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold text-yellow-400 mb-8 text-center">Pepu Bank Whitepaper</h1>
         <section id="executive-summary" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">🟧 Executive Summary</h2>
-          <p className="mb-4">The bridge to financial freedom? Start with PEPU BANK.<br/>
-          PEPU BANK was born to offer solidity, speed, and creativity in the decentralized world. With a SuperBridge that eliminates waiting times and with exclusive services for those who hold $PENK, we position ourselves as the real alternative to the limits of Pepe Unchained&apos;s Layer 2.<br/>
-          Our vision? Building a meme-banking infrastructure that combines technology, community and fun.</p>
-          <p className="mb-4">PEPU BANK is a next-gen decentralized protocol built on the new Pepe Unchained Layer 2 network, powered by the utility token $PENK. Our mission is to deliver seamless access to the PEPU ecosystem through tools like the SuperBridge, L2-native token purchases, and gamified community features.</p>
-          <p className="mb-4">We believe in tech for the people — focused on ease of use, fairness, and community ownership.</p>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">🟧 Executive Summary</h2>
+          <div className="text-center space-y-6">
+            <p className="text-lg leading-relaxed">
+              <span className="font-bold text-yellow-300">The bridge to financial freedom?</span> Start with <span className="font-bold text-yellow-400">PEPU BANK</span>.
+            </p>
+            <p className="text-base leading-relaxed">
+              <span className="font-bold text-yellow-300">PEPU BANK</span> was born to offer <span className="font-semibold">solidity, speed, and creativity</span> in the decentralized world. With a <span className="font-bold text-yellow-400">SuperBridge</span> that eliminates waiting times and with exclusive services for those who hold <span className="font-bold text-yellow-400">$PENK</span>, we position ourselves as the real alternative to the limits of Pepe Unchained&apos;s Layer 2.
+            </p>
+            <p className="text-base leading-relaxed">
+              <span className="font-bold text-yellow-300">Our vision?</span> Building a meme-banking infrastructure that combines <span className="font-semibold">technology, community and fun</span>.
+            </p>
+            <p className="text-base leading-relaxed">
+              <span className="font-bold text-yellow-400">PEPU BANK</span> is a next-gen decentralized protocol built on the new Pepe Unchained Layer 2 network, powered by the utility token <span className="font-bold text-yellow-400">$PENK</span>. Our mission is to deliver seamless access to the PEPU ecosystem through tools like the <span className="font-bold text-yellow-400">SuperBridge</span>, L2-native token purchases, and gamified community features.
+            </p>
+            <p className="text-base leading-relaxed font-semibold">
+              We believe in tech for the people — focused on <span className="text-yellow-300">ease of use, fairness, and community ownership</span>.
+            </p>
+          </div>
         </section>
         <section id="problem-solution" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">🔍 The Problem & Solution</h2>
-          <div className="mb-2 font-semibold text-yellow-300">Problem:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Slow bridging: Up to 7 days, 6 hours from L2 to L1.</li>
-            <li>Complex $PEPU purchases on Layer 2.</li>
-            <li>Unstable projects: many pretend to be solid — we are, like a bank.</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Solution:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>SuperBridge: Fast L2 &lt;-&gt; L1 transfers.</li>
-            <li>Direct $PEPU purchase on L2: via ETH, BTC, USDC on-site.</li>
-            <li>$PENK-powered services: priority access, lower fees, future features.</li>
-            <li>PEPU Game: Multiplayer experience to drive value and community.</li>
-          </ul>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">🔍 The Problem & Solution</h2>
+          <div className="space-y-8">
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <h3 className="text-xl font-bold text-red-400 mb-4 text-center">❌ Problem</h3>
+              <ul className="space-y-3 text-white/90">
+                <li className="flex items-start">
+                  <span className="text-red-400 mr-3 mt-1">•</span>
+                  <span><span className="font-semibold">Slow bridging:</span> Up to 7 days, 6 hours from L2 to L1.</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-400 mr-3 mt-1">•</span>
+                  <span><span className="font-semibold">Complex $PEPU purchases</span> on Layer 2.</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-red-400 mr-3 mt-1">•</span>
+                  <span><span className="font-semibold">Unstable projects:</span> many pretend to be solid — we are, like a bank.</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-black/20 rounded-lg p-6 border border-green-400/20">
+              <h3 className="text-xl font-bold text-green-400 mb-4 text-center">✅ Solution</h3>
+              <ul className="space-y-3 text-white/90">
+                <li className="flex items-start">
+                  <span className="text-green-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">SuperBridge:</span> Fast L2 &lt;-&gt; L1 transfers.</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Direct $PEPU purchase</span> on L2: via ETH, BTC, USDC on-site.</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">$PENK-powered services:</span> priority access, lower fees, future features.</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">PEPU Game:</span> Multiplayer experience to drive value and community.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </section>
         <section id="technology-team" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">🤖 Technology, Team & Collaborations</h2>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Blockchain: Ethereum + Pepe Unchained (L2)</li>
-            <li>Smart Contracts: Bridge, Purchase, Rewards, Services</li>
-            <li>Upcoming: DAO Governance, dApps</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Team</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Founder: @PEPU_BANK1</li>
-            <li>Co-founder: @brodo_di_pollo</li>
-            <li>Admins: @CryptoConnoisseurOG, @blabla0020, @covernrb</li>
-            <li>Artwork: @V_for_Venom</li>
-            <li>Development: Anonymous (to be revealed at SuperBridge launch)</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Collaborations:</div>
-          <p className="mb-4">Actively working with L2 projects for PEPU-compatible network.</p>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">🤖 Technology, Team & Collaborations</h2>
+          <div className="space-y-8">
+            <div className="bg-black/20 rounded-lg p-6 border border-blue-400/20">
+              <h3 className="text-xl font-bold text-blue-400 mb-4 text-center">🔧 Technology Stack</h3>
+              <ul className="space-y-3 text-white/90">
+                <li className="flex items-start">
+                  <span className="text-blue-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Blockchain:</span> Ethereum + Pepe Unchained (L2)</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Smart Contracts:</span> Bridge, Purchase, Rewards, Services</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Upcoming:</span> DAO Governance, dApps</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-black/20 rounded-lg p-6 border border-purple-400/20">
+              <h3 className="text-xl font-bold text-purple-400 mb-4 text-center">👥 Team</h3>
+              <ul className="space-y-3 text-white/90">
+                <li className="flex items-start">
+                  <span className="text-purple-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Founder:</span> @PEPU_BANK1</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-purple-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Co-founder:</span> @brodo_di_pollo</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-purple-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Admins:</span> @CryptoConnoisseurOG, @blabla0020, @covernrb</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-purple-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Artwork:</span> @V_for_Venom</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-purple-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">Development:</span> Anonymous (to be revealed at SuperBridge launch)</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-black/20 rounded-lg p-6 border border-green-400/20">
+              <h3 className="text-xl font-bold text-green-400 mb-4 text-center">🤝 Collaborations</h3>
+              <p className="text-center text-white/90">
+                Actively working with L2 projects for <span className="font-bold text-yellow-400">PEPU-compatible network</span>.
+              </p>
+            </div>
+          </div>
         </section>
         <section id="tokenomics" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">💰 Tokenomics</h2>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Token: $PENK</li>
-            <li>Contract: <span className="break-all">0x82144C93bd531E46F31033FE22D1055Af17A514c</span></li>
-            <li>Supply: 1 Billion $PENK</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Utility:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>SuperBridge access</li>
-            <li>Reduced transaction/purchase fees</li>
-            <li>Participation in rewards system</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Launch Type:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>100% Fair Launch on Pepe’s Pump Pad</li>
-            <li>No presales</li>
-            <li>No airdrops</li>
-            <li>No early team allocations</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Team Allocation: 150M $PENK (15%)</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Marketing</li>
-            <li>Development</li>
-            <li>Liquidity</li>
-            <li>Bank reserves</li>
-          </ul>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">💰 Tokenomics</h2>
+          <div className="space-y-8">
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <h3 className="text-xl font-bold text-yellow-400 mb-4 text-center">🪙 Token Details</h3>
+              <div className="grid md:grid-cols-2 gap-6 text-white/90">
+                <div>
+                  <p className="mb-2"><span className="font-bold text-yellow-400">Token:</span> $PENK</p>
+                  <p className="mb-2"><span className="font-bold text-yellow-400">Supply:</span> 1 Billion $PENK</p>
+                  <p className="mb-2"><span className="font-bold text-yellow-400">Contract:</span></p>
+                  <p className="text-xs break-all bg-black/40 p-2 rounded">0x82144C93bd531E46F31033FE22D1055Af17A514c</p>
+                </div>
+                <div>
+                  <h4 className="font-bold text-yellow-300 mb-3">Utility:</h4>
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="text-yellow-400 mr-2 mt-1">•</span>
+                      <span>SuperBridge access</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-yellow-400 mr-2 mt-1">•</span>
+                      <span>Reduced transaction/purchase fees</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-yellow-400 mr-2 mt-1">•</span>
+                      <span>Participation in rewards system</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="bg-black/20 rounded-lg p-6 border border-green-400/20">
+              <h3 className="text-xl font-bold text-green-400 mb-4 text-center">🚀 Launch Type</h3>
+              <ul className="space-y-3 text-white/90">
+                <li className="flex items-start">
+                  <span className="text-green-400 mr-3 mt-1">•</span>
+                  <span><span className="font-bold text-yellow-400">100% Fair Launch</span> on Pepe&apos;s Pump Pad</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-400 mr-3 mt-1">•</span>
+                  <span>No presales</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-400 mr-3 mt-1">•</span>
+                  <span>No airdrops</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-400 mr-3 mt-1">•</span>
+                  <span>No early team allocations</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-black/20 rounded-lg p-6 border border-blue-400/20">
+              <h3 className="text-xl font-bold text-blue-400 mb-4 text-center">📊 Team Allocation: 150M $PENK (15%)</h3>
+              <div className="grid md:grid-cols-2 gap-4 text-white/90">
+                <div>
+                  <p className="flex items-center"><span className="text-blue-400 mr-2">•</span>Marketing</p>
+                  <p className="flex items-center"><span className="text-blue-400 mr-2">•</span>Development</p>
+                </div>
+                <div>
+                  <p className="flex items-center"><span className="text-blue-400 mr-2">•</span>Liquidity</p>
+                  <p className="flex items-center"><span className="text-blue-400 mr-2">•</span>Bank reserves</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
         <section id="roadmap" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">📅 Roadmap</h2>
-          <div className="mb-2 font-semibold text-yellow-300">Phase 1 – July 2025 🎉</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Website + SuperBridge launch</li>
-            <li>Exclusive SuperBridge access for $PENK holders</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Phase 2 – August 2025 💰</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Direct $PEPU purchase on L2</li>
-            <li>ETH, BTC, USDC accepted</li>
-            <li>Discounted token pricing</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Phase 3 – December 2025 🔥</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>PEPU-themed multiplayer game</li>
-            <li>Scoring + Grand Prize</li>
-            <li>Community engagement + utility</li>
-          </ul>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">📅 Roadmap</h2>
+          <div className="max-w-2xl mx-auto space-y-6">
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <div className="flex items-center justify-center mb-4">
+                <span className="text-2xl mr-3">✅</span>
+                <span className="font-semibold text-yellow-400 text-lg">Phase 1 – July 2025 🎉</span>
+              </div>
+              <ul className="list-disc list-inside space-y-2 text-white/90">
+                <li>Website + SuperBridge launch</li>
+                <li>Exclusive SuperBridge access for $PENK holders</li>
+              </ul>
+            </div>
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <div className="flex items-center justify-center mb-4">
+                <span className="text-2xl mr-3">🛒</span>
+                <span className="font-semibold text-yellow-400 text-lg">Phase 2 – August 2025 💰</span>
+              </div>
+              <ul className="list-disc list-inside space-y-2 text-white/90">
+                <li>Direct $PEPU purchase on L2</li>
+                <li>ETH, BTC, USDC accepted</li>
+                <li>Discounted token pricing</li>
+              </ul>
+            </div>
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <div className="flex items-center justify-center mb-4">
+                <span className="text-2xl mr-3">🎮</span>
+                <span className="font-semibold text-yellow-400 text-lg">Phase 3 – December 2025 🔥</span>
+              </div>
+              <ul className="list-disc list-inside space-y-2 text-white/90">
+                <li>PEPU-themed multiplayer game</li>
+                <li>Scoring + Grand Prize</li>
+                <li>Community engagement + utility</li>
+              </ul>
+            </div>
+          </div>
         </section>
         <section id="superbridge" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">🌉 SuperBridge Explained</h2>
-          <p className="mb-4">The SuperBridge enables instant $PEPU transfer from L2 → L1, bypassing long wait periods.</p>
-          <div className="mb-2 font-semibold text-yellow-300">How it Works:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>User sends $PEPU to L2 smart contract</li>
-            <li>L1 wallet receives same amount instantly</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Key Features:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Instant delivery</li>
-            <li>Exclusive to $PENK holders</li>
-            <li>User-friendly</li>
-            <li>Bridge fee in $PEPU (TBD)</li>
-            <li>L1 pool pre-funded and managed by PEPU BANK</li>
-          </ul>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">🌉 SuperBridge Explained</h2>
+          <div className="max-w-2xl mx-auto space-y-6">
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <p className="mb-4 text-center">The SuperBridge enables instant $PEPU transfer from L2 → L1, bypassing long wait periods.</p>
+              <div className="mb-4">
+                <div className="font-semibold text-yellow-300 mb-2">How it Works:</div>
+                <ul className="list-disc list-inside space-y-2 text-white/90">
+                  <li>User sends $PEPU to L2 smart contract</li>
+                  <li>L1 wallet receives same amount instantly</li>
+                </ul>
+              </div>
+              <div>
+                <div className="font-semibold text-yellow-300 mb-2">Key Features:</div>
+                <ul className="list-disc list-inside space-y-2 text-white/90">
+                  <li>Instant delivery</li>
+                  <li>Exclusive to $PENK holders</li>
+                  <li>User-friendly</li>
+                  <li>Bridge fee in $PEPU (TBD)</li>
+                  <li>L1 pool pre-funded and managed by PEPU BANK</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </section>
         <section id="direct-l2-purchase" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">💸 Direct L2 Purchase of $PEPU Explained</h2>
-          <div className="mb-2 font-semibold text-yellow-300">Problem:</div>
-          <p className="mb-4">Bridging from L1 to L2 = high fees, delay, complexity</p>
-          <div className="mb-2 font-semibold text-yellow-300">Solution:</div>
-          <p className="mb-4">Buy $PEPU directly on L2 using funds from L1</p>
-          <div className="mb-2 font-semibold text-yellow-300">Payment Options:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>ETH</li>
-            <li>BTC</li>
-            <li>USDC</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Advantages:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Zero gas fees (PEPU BANK covers backend costs)</li>
-            <li>Discounted token pricing</li>
-            <li>No bridging steps</li>
-            <li>Simple UX on official site</li>
-          </ul>
-          <div className="mb-2 font-semibold text-yellow-300">Why Buy on L2:</div>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>Direct purchase</li>
-            <li>Cheaper</li>
-            <li>Gas-free</li>
-            <li>Seamless process</li>
-          </ul>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">💸 Direct L2 Purchase of $PEPU Explained</h2>
+          <div className="max-w-2xl mx-auto space-y-6">
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <div className="mb-4">
+                <div className="font-semibold text-yellow-300 mb-2">Problem:</div>
+                <p className="mb-4">Bridging from L1 to L2 = high fees, delay, complexity</p>
+              </div>
+              <div className="mb-4">
+                <div className="font-semibold text-yellow-300 mb-2">Solution:</div>
+                <p className="mb-4">Buy $PEPU directly on L2 using funds from L1</p>
+              </div>
+              <div className="mb-4">
+                <div className="font-semibold text-yellow-300 mb-2">Payment Options:</div>
+                <ul className="list-disc list-inside space-y-2 text-white/90">
+                  <li>ETH</li>
+                  <li>BTC</li>
+                  <li>USDC</li>
+                </ul>
+              </div>
+              <div className="mb-4">
+                <div className="font-semibold text-yellow-300 mb-2">Advantages:</div>
+                <ul className="list-disc list-inside space-y-2 text-white/90">
+                  <li>Zero gas fees (PEPU BANK covers backend costs)</li>
+                  <li>Discounted token pricing</li>
+                  <li>No bridging steps</li>
+                  <li>Simple UX on official site</li>
+                </ul>
+              </div>
+              <div>
+                <div className="font-semibold text-yellow-300 mb-2">Why Buy on L2:</div>
+                <ul className="list-disc list-inside space-y-2 text-white/90">
+                  <li>Direct purchase</li>
+                  <li>Cheaper</li>
+                  <li>Gas-free</li>
+                  <li>Seamless process</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </section>
         <section id="disclaimer" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">⚠ Disclaimer</h2>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li>$PENK is a meme utility token — not financial advice or a security.</li>
-            <li>No guarantees of profits, ownership rights, or governance.</li>
-            <li>Users must ensure legal compliance based on jurisdiction.</li>
-            <li>Crypto risk warning: Participation is at your own discretion.</li>
-          </ul>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">⚠ Disclaimer</h2>
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <ul className="list-disc list-inside space-y-2 text-white/90">
+                <li>$PENK is a meme utility token — not financial advice or a security.</li>
+                <li>No guarantees of profits, ownership rights, or governance.</li>
+                <li>Users must ensure legal compliance based on jurisdiction.</li>
+                <li>Crypto risk warning: Participation is at your own discretion.</li>
+              </ul>
+            </div>
+          </div>
         </section>
         <section id="links" className="mb-12 scroll-mt-24">
-          <h2 className="text-2xl font-bold text-yellow-400 mb-4">📎 Official Links</h2>
-          <ul className="list-disc list-inside mb-4 text-white/90">
-            <li><a href="https://x.com/PepuBank" target="_blank" rel="noopener noreferrer" className="text-yellow-300 underline hover:text-yellow-400">x.com/PepuBank</a></li>
-            <li><a href="https://t.me/Pepu_BANK" target="_blank" rel="noopener noreferrer" className="text-yellow-300 underline hover:text-yellow-400">t.me/Pepu_BANK</a></li>
-          </ul>
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">📎 Official Links</h2>
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
+              <ul className="list-disc list-inside space-y-2 text-white/90">
+                <li><a href="https://x.com/PepuBank" target="_blank" rel="noopener noreferrer" className="text-yellow-300 underline hover:text-yellow-400">x.com/PepuBank</a></li>
+                <li><a href="https://t.me/Pepu_BANK" target="_blank" rel="noopener noreferrer" className="text-yellow-300 underline hover:text-yellow-400">t.me/Pepu_BANK</a></li>
+              </ul>
+            </div>
+          </div>
         </section>
         <div className="mt-12 text-center">
           <Link
