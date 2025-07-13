@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 function Roadmap() {
   const [exploreOpen, setExploreOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navLinks = [
     { name: "RoadMap", href: "/roadmap" },
@@ -28,7 +28,7 @@ function Roadmap() {
         <div className="hidden sm:flex items-center w-full pointer-events-auto justify-center gap-x-60">
           {/* Logo at far left */}
           <div className="flex items-center">
-            <a href="/" className="hover:opacity-80 transition-opacity">
+            <Link href="/" className="hover:opacity-80 transition-opacity">
               <Image
                 src="/pepubank-logo.png"
                 alt="Pepu Bank Logo"
@@ -37,7 +37,7 @@ function Roadmap() {
                 className="shadow"
                 priority
               />
-            </a>
+            </Link>
           </div>
           {/* Nav rectangle, only as wide as content */}
           <div className="inline-flex bg-[#181b1c] bg-opacity-95 border border-yellow-500/60 shadow items-center justify-start px-4 py-1 max-w-xl h-12 backdrop-blur-md pointer-events-auto" style={{ borderRadius: '0px', borderWidth: '2px' }}>
@@ -92,7 +92,7 @@ function Roadmap() {
         {/* Mobile Header (logo, connect, menu) */}
         <div className="flex sm:hidden items-center w-full justify-between pointer-events-auto px-4 py-3 bg-black/80 backdrop-blur-md border-b border-yellow-500/20">
           <div className="flex items-center">
-            <a href="/" className="hover:opacity-80 transition-opacity">
+            <Link href="/" className="hover:opacity-80 transition-opacity">
               <Image
                 src="/pepubank-logo.png"
                 alt="Pepu Bank Logo"
@@ -101,7 +101,7 @@ function Roadmap() {
                 className="shadow"
                 priority
               />
-            </a>
+            </Link>
           </div>
           <div className="flex items-center gap-2">
             <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-3 py-1 rounded transition-colors shadow border border-yellow-600/60 text-xs">

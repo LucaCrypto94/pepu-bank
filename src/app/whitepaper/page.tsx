@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { ArrowRightLeft } from "lucide-react";
-import { motion } from "framer-motion";
 
 const sections = [
   { id: "executive-summary", label: "🟧 Executive Summary" },
@@ -22,7 +20,6 @@ export default function Whitepaper() {
   const [active, setActive] = useState(sections[0].id);
   const [exploreOpen, setExploreOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
 
   const navLinks = [
     { name: "RoadMap", href: "/roadmap" },
