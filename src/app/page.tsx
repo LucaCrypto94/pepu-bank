@@ -4,10 +4,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ArrowRightLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const navLinks = [
-  { name: "RoadMap", href: "#roadmap" },
-  { name: "Whitepaper", href: "#whitepaper" },
+  { name: "RoadMap", href: "/roadmap" },
+  { name: "Whitepaper", href: "/whitepaper" },
   { name: "How2Penk", href: "#how2penk-section" },
   { name: "About", href: "#about" },
 ];
@@ -524,7 +525,11 @@ export default function Home() {
           <div className="flex flex-col gap-2">
             <span className="text-yellow-400 font-bold mb-2">Resources</span>
             {navLinks.map(link => (
-              <a key={link.name} href={link.href} className="text-white/80 hover:text-yellow-400 transition">{link.name}</a>
+              link.name === "Whitepaper" ? (
+                <Link key={link.name} href={link.href} className="text-white/80 hover:text-yellow-400 transition">{link.name}</Link>
+              ) : (
+                <a key={link.name} href={link.href} className="text-white/80 hover:text-yellow-400 transition">{link.name}</a>
+              )
             ))}
           </div>
           {/* Community */}
