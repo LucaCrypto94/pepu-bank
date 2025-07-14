@@ -17,6 +17,26 @@ const sections = [
   { id: "links", label: "📎 Official Links" },
 ];
 
+function CopyableAddress({ address }: { address: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-xs break-all bg-black/40 p-2 rounded select-all">{address}</span>
+      <button
+        className="text-xs px-2 py-1 bg-yellow-400 text-black rounded hover:bg-yellow-300 transition border border-yellow-600 font-bold"
+        onClick={() => {
+          navigator.clipboard.writeText(address);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 1200);
+        }}
+        type="button"
+      >
+        {copied ? 'Copied!' : 'Copy'}
+      </button>
+    </div>
+  );
+}
+
 export default function Whitepaper() {
   const [active, setActive] = useState(sections[0].id);
   const [exploreOpen, setExploreOpen] = useState(false);
@@ -387,7 +407,7 @@ export default function Whitepaper() {
                   <p className="mb-2"><span className="font-bold text-yellow-400">Token:</span> $PENK</p>
                   <p className="mb-2"><span className="font-bold text-yellow-400">Supply:</span> 1 Billion $PENK</p>
                   <p className="mb-2"><span className="font-bold text-yellow-400">Contract:</span></p>
-                  <p className="text-xs break-all bg-black/40 p-2 rounded">0x82144C93bd531E46F31033FE22D1055Af17A514c</p>
+                  <CopyableAddress address="0x82144C93bd531E46F31033FE22D1055Af17A514c" />
                 </div>
                 <div>
                   <h4 className="font-bold text-yellow-300 mb-3">Utility:</h4>
