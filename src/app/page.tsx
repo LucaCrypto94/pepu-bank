@@ -172,15 +172,18 @@ export default function Home() {
             </nav>
           </div>
           {/* Connect at far right */}
-          <div className="flex items-center">
+          <div className="flex items-center" style={{ pointerEvents: 'auto', zIndex: 50 }}>
             <ConnectButton.Custom>
               {({ openConnectModal }) => (
                 <button
                   onClick={openConnectModal}
                   type="button"
                   className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
+                  style={{ pointerEvents: 'auto', zIndex: 50 }}
                 >
-                  Connect
+                  {isConnected && address
+                    ? `${address.slice(0, 6)}...${address.slice(-4)}`
+                    : 'Connect'}
                 </button>
               )}
             </ConnectButton.Custom>
@@ -201,15 +204,18 @@ export default function Home() {
             <a href="#superbridge" className="text-white font-medium text-xs px-2 py-1 hover:text-yellow-400 transition-colors">SuperBridge</a>
             <a href="#how2penk-section" className="text-white font-medium text-xs px-2 py-1 hover:text-yellow-400 transition-colors">How2Penk</a>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" style={{ pointerEvents: 'auto', zIndex: 50 }}>
             <ConnectButton.Custom>
               {({ openConnectModal }) => (
                 <button
                   onClick={openConnectModal}
                   type="button"
                   className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
+                  style={{ pointerEvents: 'auto', zIndex: 50 }}
                 >
-                  Connect
+                  {isConnected && address
+                    ? `${address.slice(0, 6)}...${address.slice(-4)}`
+                    : 'Connect'}
                 </button>
               )}
             </ConnectButton.Custom>
@@ -459,11 +465,17 @@ export default function Home() {
                 {/* Amount input */}
                 <div className="flex flex-col gap-1">
                   <label className="text-white/70 text-xs mb-1">You Send</label>
+                  {/* Show connect wallet message if not connected */}
+                  {!isConnected && (
+                    <div className="text-xs text-red-500 text-center font-semibold mb-2">
+                      Connect wallet to enter amount
+                    </div>
+                  )}
                   <input
                     type="number"
                     min="0"
-                    value={sendAmount}
-                    onChange={e => {
+                    value={isConnected ? sendAmount : ""}
+                    onChange={isConnected ? (e => {
                       let val = e.target.value;
                       // Allow empty
                       if (val === "") {
@@ -477,15 +489,16 @@ export default function Home() {
                         val = walletBalance;
                       }
                       setSendAmount(val);
-                    }}
+                    }) : undefined}
                     step="any"
                     placeholder="0.0"
                     inputMode="decimal"
                     autoComplete="off"
                     autoCorrect="off"
                     spellCheck={false}
-                    className="w-full bg-[#181b1c] text-white text-base font-bold rounded-lg px-3 py-2 border border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-white/40"
+                    className="w-full bg-[#181b1c] text-white text-base font-bold rounded-lg px-3 py-2 border border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-white/40 disabled:bg-[#181b1c]/60 disabled:text-white/40"
                     style={{ appearance: 'textfield' }}
+                    disabled={!isConnected}
                   />
                   {/* Wallet balance display (Available + balance, mock style) under input */}
                   <div className="w-full flex flex-col gap-1 mt-1 mb-2">
