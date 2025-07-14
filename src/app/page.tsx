@@ -330,23 +330,14 @@ export default function Home() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.15 } },
             }}
-            className="flex-1 flex flex-col justify-center gap-6 z-10 sm:flex-row sm:overflow-x-auto sm:gap-4 sm:py-2"
-            style={{
-              // On mobile, make steps horizontally scrollable and increase spacing
-              overflowX: 'auto',
-              flexDirection: 'column',
-              gap: '1.5rem',
-              paddingBottom: '0.5rem',
-              WebkitOverflowScrolling: 'touch',
-              // On small screens, switch to row layout for better visibility
-            }}
+            className="flex-1 flex flex-col justify-center gap-3 z-10 sm:gap-6"
           >
-            <h2 className="text-2xl font-bold text-yellow-400 mb-2 sm:mb-0 sm:mr-4 min-w-[180px]">How it works</h2>
+            <h2 className="text-lg font-bold text-yellow-400 mb-2 sm:text-2xl sm:mb-0 sm:mr-4 sm:min-w-[180px]">How it works</h2>
             {[
               { title: 'Visit', desc: <a href='https://pepubridge.com' className='text-yellow-400 underline' target='_blank'>pepubridge.com</a> },
               { title: 'Connect your wallet', desc: 'Use a wallet that supports custom networks.' },
               { title: 'Enter the amount to bridge', desc: 'Choose how many tokens to move to Layer 2.' },
-              { title: 'Review and accept terms', desc: '' },
+              { title: 'Review and accept terms', desc: 'Please read and accept the terms before proceeding.' },
               { title: 'Confirm in your wallet', desc: 'Processing may take a few minutes.' },
               { title: 'Done!', desc: 'Your tokens will appear on Layer 2.' },
             ].map((step, i) => (
@@ -356,16 +347,12 @@ export default function Home() {
                   hidden: { opacity: 0, x: -30 },
                   visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: i * 0.1 } },
                 }}
-                className="flex items-start gap-4 min-w-[220px] sm:min-w-[180px] px-2 py-3 bg-[#232526] rounded-xl shadow border border-yellow-400/40 hover:bg-yellow-400/10 transition-all duration-200"
-                style={{
-                  // On mobile, make each step a card with more padding and spacing
-                  flex: '0 0 auto',
-                  marginRight: '0.5rem',
-                }}
+                className="flex items-start gap-2 px-2 py-2 bg-[#232526] rounded-lg shadow border border-yellow-400/40 hover:bg-yellow-400/10 transition-all duration-200 sm:gap-4 sm:min-w-[180px] sm:px-4 sm:py-3 sm:rounded-xl"
               >
-                <span className="bg-yellow-400 text-black font-bold rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-yellow-500/60 text-lg">{i+1}</span>
+                <span className="bg-yellow-400 text-black font-bold rounded-full w-7 h-7 flex items-center justify-center shadow border border-yellow-500/60 text-base sm:w-8 sm:h-8 sm:text-lg">{i+1}</span>
                 <div>
-                  <span className="font-semibold text-base">{step.title} {step.desc && <span className="block text-sm text-white/80 font-normal">{step.desc}</span>}</span>
+                  <span className="font-semibold text-sm sm:text-base text-yellow-100">{step.title}</span>
+                  {step.desc && <span className="block text-xs sm:text-sm text-white/80 font-normal mt-0.5">{step.desc}</span>}
                 </div>
               </motion.li>
             ))}
