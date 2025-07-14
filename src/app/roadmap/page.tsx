@@ -206,8 +206,8 @@ function Roadmap() {
         backgroundPosition: 'center'
       }}></div>
       <div className="relative z-10 flex flex-col w-full px-0 pt-20 md:pt-2 pb-2">
-        <h1 className="text-2xl md:text-6xl font-extrabold text-yellow-400 mb-4 md:mb-1 drop-shadow-lg text-left ml-4 md:ml-24">Roadmap</h1>
-        <div className="w-full text-white text-xs md:text-sm space-y-3 md:space-y-3 text-left ml-2 md:ml-24 px-2 md:px-0">
+        <h1 className="text-2xl md:text-5xl font-extrabold text-yellow-400 mb-3 md:mb-1 drop-shadow-lg text-left ml-4 md:ml-24">Roadmap</h1>
+        <div className="w-full text-white text-sm md:text-base space-y-3 md:space-y-3 text-left ml-2 md:ml-24 px-2 md:px-0 mt-1 md:mt-2">
           <div className="mb-4">
             <div className="bg-black/40 rounded-lg p-3 border border-yellow-400/30 md:bg-transparent md:border-none md:p-0">
               <div className="flex items-center mb-2">

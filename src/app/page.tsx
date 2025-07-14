@@ -107,18 +107,19 @@ export default function Home() {
   }, []);
 
   return (
-    <div
-      className="relative min-h-screen w-full bg-cover bg-center flex flex-col"
-      style={{ backgroundImage: "url('/pepubank-site-bg.jpg')" }}
-    >
-      {/* Overlay for readability */}
-      <div className="absolute inset-0 bg-black/60 z-0" />
-      {/* Responsive Header Row */}
-      <div className="relative top-3 left-0 right-0 z-30 w-full pointer-events-none">
-        {/* Desktop Header (logo left, nav center, connect right) */}
-        <div className="hidden sm:flex items-center w-full pointer-events-auto justify-center gap-x-60">
-          {/* Logo at far left */}
-          <div className="flex items-center">
+    <>
+      <div
+        className="relative min-h-screen w-full bg-cover bg-center flex flex-col"
+        style={{ backgroundImage: "url('/pepubank-site-bg.jpg')" }}
+      >
+        {/* Overlay for readability */}
+        <div className="absolute inset-0 bg-black/60 z-0" />
+        {/* Responsive Header Row */}
+        <div className="relative top-3 left-0 right-0 z-30 w-full pointer-events-auto">
+          {/* Desktop Header (logo left, nav center, connect right) */}
+          <div className="hidden sm:flex items-center w-full pointer-events-auto justify-center gap-x-60">
+            {/* Logo at far left */}
+            <div className="flex items-center">
         <Image
               src="/pepubank-logo.png"
               alt="Pepu Bank Logo"
@@ -172,14 +173,19 @@ export default function Home() {
             </nav>
           </div>
           {/* Connect at far right */}
-          <div className="flex items-center" style={{ pointerEvents: 'auto', zIndex: 50 }}>
+          <div className="flex items-center">
             <ConnectButton.Custom>
-              {({ openConnectModal }) => (
+              {({ openConnectModal, openAccountModal, account, chain }) => (
                 <button
-                  onClick={openConnectModal}
+                  onClick={() => {
+                    if (isConnected && openAccountModal) {
+                      openAccountModal();
+                    } else {
+                      openConnectModal();
+                    }
+                  }}
                   type="button"
                   className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
-                  style={{ pointerEvents: 'auto', zIndex: 50 }}
                 >
                   {isConnected && address
                     ? `${address.slice(0, 6)}...${address.slice(-4)}`
@@ -206,12 +212,17 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-2" style={{ pointerEvents: 'auto', zIndex: 50 }}>
             <ConnectButton.Custom>
-              {({ openConnectModal }) => (
+              {({ openConnectModal, openAccountModal, account, chain }) => (
                 <button
-                  onClick={openConnectModal}
+                  onClick={() => {
+                    if (isConnected && openAccountModal) {
+                      openAccountModal();
+                    } else {
+                      openConnectModal();
+                    }
+                  }}
                   type="button"
                   className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
-                  style={{ pointerEvents: 'auto', zIndex: 50 }}
                 >
                   {isConnected && address
                     ? `${address.slice(0, 6)}...${address.slice(-4)}`
@@ -359,7 +370,7 @@ export default function Home() {
             />
               <div className="absolute" style={{ top: '22%', left: '50%', transform: 'translate(-50%, 0)', width: 270, height: 90 }}>
               <video
-                src="/HOW2PENK%20FULL.mov"
+                src="/HOW2PENK VID.mov"
                 controls
                   className="w-full h-full rounded-xl shadow-xl bg-black/90 animate-fade-in-up"
                   style={{ objectFit: 'cover', aspectRatio: '19/6' }}
@@ -616,5 +627,6 @@ export default function Home() {
         <div className="text-white/40 text-xs text-center mt-2">Not financial advice. Cryptocurrency involves risk. Do your own research.</div>
       </footer>
     </div>
+    </>
   );
 }
