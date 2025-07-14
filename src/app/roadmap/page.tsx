@@ -19,7 +19,7 @@ function scrollToSection(hash: string) {
 }
 
 // Helper to set hash and trigger scroll after navigation
-function goToSection(router: any, hash: string) {
+function goToSection(router: ReturnType<typeof useRouter>, hash: string) {
   router.push('/');
   setTimeout(() => {
     window.location.hash = hash;
@@ -32,10 +32,11 @@ function Roadmap() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   // Listen for hash in URL and scroll
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash) {
-      scrollToSection(window.location.hash);
+    const hash = typeof window !== 'undefined' ? window.location.hash : '';
+    if (hash) {
+      scrollToSection(hash);
     }
-  }, [typeof window !== 'undefined' && window.location.hash]);
+  }, [typeof window !== 'undefined' ? window.location.hash : '']);
 
   const navLinks = [
     { name: "RoadMap", href: "/roadmap" },

@@ -18,7 +18,7 @@ function scrollToSection(hash: string) {
 }
 
 // Helper to go to main page and scroll to section
-function goToSection(router: any, hash: string) {
+function goToSection(router: ReturnType<typeof useRouter>, hash: string) {
   router.push('/');
   setTimeout(() => {
     scrollToSection(hash);
@@ -98,11 +98,12 @@ export default function Whitepaper() {
       setActive(offsets[0].id);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    if (typeof window !== 'undefined' && window.location.hash) {
-      scrollToSection(window.location.hash);
+    const hash = typeof window !== 'undefined' ? window.location.hash : '';
+    if (hash) {
+      scrollToSection(hash);
     }
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [typeof window !== 'undefined' && window.location.hash]);
+  }, [typeof window !== 'undefined' ? window.location.hash : '']);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
