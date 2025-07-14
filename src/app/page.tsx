@@ -175,7 +175,7 @@ export default function Home() {
           {/* Connect at far right */}
           <div className="flex items-center">
             <ConnectButton.Custom>
-              {({ openConnectModal, openAccountModal, account, chain }) => (
+              {({ openConnectModal, openAccountModal }) => (
                 <button
                   onClick={() => {
                     if (isConnected && openAccountModal) {
@@ -212,7 +212,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-2" style={{ pointerEvents: 'auto', zIndex: 50 }}>
             <ConnectButton.Custom>
-              {({ openConnectModal, openAccountModal, account, chain }) => (
+              {({ openConnectModal, openAccountModal }) => (
                 <button
                   onClick={() => {
                     if (isConnected && openAccountModal) {
