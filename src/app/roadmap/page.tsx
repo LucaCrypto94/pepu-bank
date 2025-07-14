@@ -4,16 +4,45 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+// Helper to scroll to section after navigation
+function scrollToSection(hash: string) {
+  if (!hash.startsWith('#')) return;
+  setTimeout(() => {
+    const el = document.querySelector(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 100);
+}
+
+// Helper to set hash and trigger scroll after navigation
+function goToSection(router: any, hash: string) {
+  router.push('/');
+  setTimeout(() => {
+    window.location.hash = hash;
+  }, 50);
+}
 
 function Roadmap() {
+  const router = useRouter();
   const [exploreOpen, setExploreOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  // Listen for hash in URL and scroll
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      scrollToSection(window.location.hash);
+    }
+  }, [typeof window !== 'undefined' && window.location.hash]);
 
   const navLinks = [
     { name: "RoadMap", href: "/roadmap" },
     { name: "Whitepaper", href: "/whitepaper" },
     { name: "How2Penk", href: "#how2penk-section" },
-    { name: "About", href: "#about" },
+    { name: "SuperBridge", href: "#superbridge" },
+    { name: "About", href: "#faq-section" },
   ];
 
   const exploreLinks = [
@@ -66,20 +95,44 @@ function Roadmap() {
                   </div>
                 )}
               </div>
-              <a
-                href="#superbridge"
-                className="hover:text-yellow-400 transition-colors duration-200"
-              >
-                SuperBridge
-              </a>
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="hover:text-yellow-400 transition-colors duration-200"
-                >
-                  {link.name}
-                </a>
+                link.name === 'RoadMap' ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      router.push('/roadmap');
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                ) : link.href.startsWith('#') ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      goToSection(router, link.href);
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      router.push(link.href);
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                )
               ))}
             </nav>
           </div>
@@ -175,22 +228,47 @@ function Roadmap() {
               </div>
               <div className="space-y-2">
                 <div className="text-yellow-400 font-bold text-sm mb-2">Navigation</div>
-                <a
-                  href="#superbridge"
-                  className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
-                  onClick={() => setMobileNavOpen(false)}
-                >
-                  SuperBridge
-                </a>
                 {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    {link.name}
-                  </a>
+                  link.name === 'RoadMap' ? (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                      onClick={e => {
+                        e.preventDefault();
+                        setMobileNavOpen(false);
+                        router.push('/roadmap');
+                      }}
+                    >
+                      {link.name}
+                    </a>
+                  ) : link.href.startsWith('#') ? (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                      onClick={e => {
+                        e.preventDefault();
+                        setMobileNavOpen(false);
+                        goToSection(router, link.href);
+                      }}
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                      onClick={e => {
+                        e.preventDefault();
+                        setMobileNavOpen(false);
+                        router.push(link.href);
+                      }}
+                    >
+                      {link.name}
+                    </a>
+                  )
                 ))}
               </div>
             </nav>

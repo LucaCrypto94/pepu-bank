@@ -4,6 +4,26 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useRouter } from 'next/navigation';
+
+// Helper to scroll to section after navigation
+function scrollToSection(hash: string) {
+  if (!hash.startsWith('#')) return;
+  setTimeout(() => {
+    const el = document.querySelector(hash);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, 100);
+}
+
+// Helper to go to main page and scroll to section
+function goToSection(router: any, hash: string) {
+  router.push('/');
+  setTimeout(() => {
+    scrollToSection(hash);
+  }, 100);
+}
 
 const sections = [
   { id: "executive-summary", label: "🟧 Executive Summary" },
@@ -50,12 +70,14 @@ export default function Whitepaper() {
   const [active, setActive] = useState(sections[0].id);
   const [exploreOpen, setExploreOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const router = useRouter();
 
   const navLinks = [
     { name: "RoadMap", href: "/roadmap" },
     { name: "Whitepaper", href: "/whitepaper" },
     { name: "How2Penk", href: "#how2penk-section" },
-    { name: "About", href: "#about" },
+    { name: "SuperBridge", href: "#superbridge" },
+    { name: "About", href: "#faq-section" },
   ];
 
   const exploreLinks = [
@@ -76,8 +98,11 @@ export default function Whitepaper() {
       setActive(offsets[0].id);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    if (typeof window !== 'undefined' && window.location.hash) {
+      scrollToSection(window.location.hash);
+    }
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [typeof window !== 'undefined' && window.location.hash]);
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -113,20 +138,44 @@ export default function Whitepaper() {
                   </div>
                 )}
               </div>
-              <a
-                href="#superbridge"
-                className="hover:text-yellow-400 transition-colors duration-200"
-              >
-                SuperBridge
-              </a>
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="hover:text-yellow-400 transition-colors duration-200"
-                >
-                  {link.name}
-                </a>
+                link.name === 'RoadMap' ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      router.push('/roadmap');
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                ) : link.href.startsWith('#') ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      goToSection(router, link.href);
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      router.push(link.href);
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                )
               ))}
             </nav>
           </div>
@@ -217,22 +266,47 @@ export default function Whitepaper() {
               </div>
               <div className="space-y-2">
                 <div className="text-yellow-400 font-bold text-sm mb-2">Navigation</div>
-                <a
-                  href="#superbridge"
-                  className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
-                  onClick={() => setMobileNavOpen(false)}
-                >
-                  SuperBridge
-                </a>
                 {navLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    {link.name}
-                  </a>
+                  link.name === 'RoadMap' ? (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                      onClick={e => {
+                        e.preventDefault();
+                        setMobileNavOpen(false);
+                        router.push('/roadmap');
+                      }}
+                    >
+                      {link.name}
+                    </a>
+                  ) : link.href.startsWith('#') ? (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                      onClick={e => {
+                        e.preventDefault();
+                        setMobileNavOpen(false);
+                        goToSection(router, link.href);
+                      }}
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className="block px-4 py-2 text-sm text-white hover:bg-yellow-500/10 hover:text-yellow-400 transition-colors rounded"
+                      onClick={e => {
+                        e.preventDefault();
+                        setMobileNavOpen(false);
+                        router.push(link.href);
+                      }}
+                    >
+                      {link.name}
+                    </a>
+                  )
                 ))}
               </div>
             </nav>
@@ -510,7 +584,7 @@ export default function Whitepaper() {
             </div>
           </div>
         </section>
-        <section id="superbridge" className="mb-12 scroll-mt-24">
+        <section id="superbridge-whitepaper" className="mb-12 scroll-mt-24">
           <h2 className="text-2xl font-bold text-yellow-400 mb-6 text-center">🌉 SuperBridge Explained</h2>
           <div className="max-w-2xl mx-auto space-y-6">
             <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">

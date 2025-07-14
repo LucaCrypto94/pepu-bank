@@ -7,12 +7,14 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useBalance } from 'wagmi';
+import { useRouter } from 'next/navigation';
 
 const navLinks = [
   { name: "RoadMap", href: "/roadmap" },
   { name: "Whitepaper", href: "/whitepaper" },
   { name: "How2Penk", href: "#how2penk-section" },
-  { name: "About", href: "#about" },
+  { name: "SuperBridge", href: "#superbridge" },
+  { name: "About", href: "#faq-section" },
 ];
 
 const exploreLinks = [
@@ -63,6 +65,7 @@ export default function Home() {
   const [exploreOpen, setExploreOpen] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
+  const router = useRouter();
 
   // Token balance state
   const [tokenBalance, setTokenBalance] = useState<string | null>(null);
@@ -155,20 +158,45 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <a
-                href="#superbridge"
-                className="hover:text-yellow-400 transition-colors duration-200"
-              >
-                SuperBridge
-              </a>
               {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="hover:text-yellow-400 transition-colors duration-200"
-                >
-                  {link.name}
-                </a>
+                link.href.startsWith('#') ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      if (window.location.pathname !== '/') {
+                        router.push('/');
+                        setTimeout(() => {
+                          const el = document.querySelector(link.href);
+                          if (el) {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }, 100);
+                      } else {
+                        const el = document.querySelector(link.href);
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      router.push(link.href);
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                )
               ))}
             </nav>
           </div>
@@ -288,23 +316,38 @@ export default function Home() {
                   ))}
                 </div>
               )}
-              {navLinks.filter(link => link.name !== "How2Penk").map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="hover:text-yellow-400 transition-colors duration-200"
-                  onClick={() => setMobileNavOpen(false)}
-                >
-                  {link.name}
-                </a>
+              {navLinks.map((link) => (
+                link.name === 'Whitepaper' ? (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-yellow-400 transition-colors duration-200"
+                    onClick={e => {
+                      e.preventDefault();
+                      setMobileNavOpen(false);
+                      if (window.location.pathname !== '/') {
+                        router.push('/' + link.href);
+                      } else {
+                        const el = document.querySelector(link.href);
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }
+                    }}
+                  >
+                    {link.name}
+                  </a>
+                )
               ))}
-              <a
-                href="#how2penk-section"
-                className="hover:text-yellow-400 transition-colors duration-200"
-                onClick={() => setMobileNavOpen(false)}
-              >
-                How2Penk
-              </a>
             </nav>
           </div>
         </div>
@@ -386,7 +429,7 @@ export default function Home() {
         </div>
       </section>
       {/* Why Pepu Bank: Unified Feature Highlight, Modern Design */}
-      <section className="w-full flex flex-col items-center mt-8 mb-24 animate-fade-in-up">
+      <section id="superbridge" className="w-full flex flex-col items-center mt-8 mb-24 animate-fade-in-up">
         <h2 className="text-3xl font-extrabold text-yellow-400 mb-10 tracking-tight text-center">Why Pepu Bank?</h2>
         <div className="w-full max-w-5xl flex flex-col md:flex-row gap-8 items-stretch bg-[#181b1c]/80 rounded-3xl shadow-2xl p-10 relative" style={{ overflow: 'visible' }}>
           {/* Floating image OUTSIDE the container, absolutely positioned */}
@@ -555,7 +598,7 @@ export default function Home() {
         </div>
       </section>
       {/* FAQ Section: Full Width, Animated */}
-      <section className="w-full flex flex-col items-center mt-8 mb-24 animate-fade-in-up">
+      <section id="faq-section" className="w-full flex flex-col items-center mt-8 mb-24 animate-fade-in-up">
         <h2 className="text-2xl font-bold text-yellow-400 mb-8 w-full max-w-5xl text-left pl-2">Frequently Asked Questions</h2>
         <motion.div
           initial="hidden"
