@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 function Roadmap() {
   const [exploreOpen, setExploreOpen] = useState(false);
@@ -84,9 +85,17 @@ function Roadmap() {
           </div>
           {/* Connect at far right */}
           <div className="flex items-center">
-            <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-3 py-1 rounded transition-colors shadow border border-yellow-600/60 text-xs sm:text-sm">
-              Connect
-            </button>
+            <ConnectButton.Custom>
+              {({ openConnectModal }) => (
+                <button
+                  onClick={openConnectModal}
+                  type="button"
+                  className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
+                >
+                  Connect
+                </button>
+              )}
+            </ConnectButton.Custom>
           </div>
         </div>
         {/* Mobile Header (logo, connect, menu) */}
@@ -104,9 +113,17 @@ function Roadmap() {
             </Link>
           </div>
           <div className="flex items-center gap-2">
-            <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-3 py-1 rounded transition-colors shadow border border-yellow-600/60 text-xs">
-              Connect
-            </button>
+            <ConnectButton.Custom>
+              {({ openConnectModal }) => (
+                <button
+                  onClick={openConnectModal}
+                  type="button"
+                  className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
+                >
+                  Connect
+                </button>
+              )}
+            </ConnectButton.Custom>
             {/* Fancier Hamburger: animated to X on open, staggered bars */}
             <button
               className="relative w-10 h-10 flex flex-col items-center justify-center group focus:outline-none"

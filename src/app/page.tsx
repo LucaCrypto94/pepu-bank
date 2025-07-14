@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { ArrowRightLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount, useBalance } from 'wagmi';
 
 const navLinks = [
   { name: "RoadMap", href: "/roadmap" },
@@ -66,6 +68,19 @@ export default function Home() {
   const [tokenBalance, setTokenBalance] = useState<string | null>(null);
   const [balanceLoading, setBalanceLoading] = useState(true);
   const [balanceError, setBalanceError] = useState<string | null>(null);
+  const [sendAmount, setSendAmount] = useState<string>("");
+
+  // Native wallet balance (PEPU coin)
+  const { address, isConnected } = useAccount();
+  const {
+    data: walletBalanceData,
+    isLoading: walletBalanceLoading,
+    error: walletBalanceError,
+  } = useBalance({
+    address,
+    chainId: 97741, // Pepe Unchained V2
+  });
+  const walletBalance = walletBalanceData ? walletBalanceData.formatted : null;
 
   useEffect(() => {
     async function fetchBalance() {
@@ -158,9 +173,17 @@ export default function Home() {
           </div>
           {/* Connect at far right */}
           <div className="flex items-center">
-            <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-3 py-1 rounded transition-colors shadow border border-yellow-600/60 text-xs sm:text-sm">
-              Connect
-            </button>
+            <ConnectButton.Custom>
+              {({ openConnectModal }) => (
+                <button
+                  onClick={openConnectModal}
+                  type="button"
+                  className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
+                >
+                  Connect
+                </button>
+              )}
+            </ConnectButton.Custom>
           </div>
         </div>
         {/* Mobile Header (logo, SuperBridge, How2Penk, connect, menu) */}
@@ -179,9 +202,17 @@ export default function Home() {
             <a href="#how2penk-section" className="text-white font-medium text-xs px-2 py-1 hover:text-yellow-400 transition-colors">How2Penk</a>
           </div>
           <div className="flex items-center gap-2">
-            <button className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold px-3 py-1 rounded transition-colors shadow border border-yellow-600/60 text-xs">
-              Connect
-            </button>
+            <ConnectButton.Custom>
+              {({ openConnectModal }) => (
+                <button
+                  onClick={openConnectModal}
+                  type="button"
+                  className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
+                >
+                  Connect
+                </button>
+              )}
+            </ConnectButton.Custom>
             {/* Fancier Hamburger: animated to X on open, staggered bars */}
             <button
               className="relative w-10 h-10 flex flex-col items-center justify-center group focus:outline-none"
@@ -312,18 +343,18 @@ export default function Home() {
           <div className="relative flex justify-center items-center flex-shrink-0 md:-mr-8 z-20 mt-8 md:mt-0">
             <div className="absolute -inset-4 bg-yellow-400/10 blur-2xl rounded-2xl z-0" />
             <div className="relative z-10">
-              <Image
-                src="/6012603865783978394.jpg"
-                alt="How2Penk Guide"
+          <Image
+              src="/6012603865783978394.jpg"
+              alt="How2Penk Guide"
                 width={480}
                 height={300}
                 className="rounded-2xl shadow-xl w-full h-auto object-cover max-w-lg"
-                priority={false}
-              />
+              priority={false}
+            />
               <div className="absolute" style={{ top: '22%', left: '50%', transform: 'translate(-50%, 0)', width: 270, height: 90 }}>
-                <video
-                  src="/HOW2PENK%20FULL.mov"
-                  controls
+              <video
+                src="/HOW2PENK%20FULL.mov"
+                controls
                   className="w-full h-full rounded-xl shadow-xl bg-black/90 animate-fade-in-up"
                   style={{ objectFit: 'cover', aspectRatio: '19/6' }}
                 />
@@ -411,47 +442,69 @@ export default function Home() {
                             />
                             <div className="absolute inset-0 flex items-center justify-center">
                               <span className="text-xs font-bold text-black drop-shadow" style={{ textShadow: '0 1px 2px #fff8' }}>{percent.toFixed(2)}%</span>
-                            </div>
-                          </div>
+                  </div>
+                  </div>
                           <div className="flex justify-between text-xs text-white/60 mt-0.5">
                             <span>0</span>
                             <span>35,000,000</span>
-                          </div>
+                  </div>
                           <div className="text-xs text-white/80 text-center font-semibold mt-1">
                             SuperBridge Pool: {balance.toLocaleString()} PEPU
-                          </div>
-                        </div>
+                  </div>
+            </div>
                       );
                     })()
                   )}
-                </div>
+                  </div>
                 {/* Amount input */}
                 <div className="flex flex-col gap-1">
                   <label className="text-white/70 text-xs mb-1">You Send</label>
                   <input
                     type="number"
                     min="0"
-                    value="100000"
-                    disabled
+                    value={sendAmount}
+                    onChange={e => {
+                      let val = e.target.value;
+                      // Allow empty
+                      if (val === "") {
+                        setSendAmount("");
+                        return;
+                      }
+                      // Only allow numbers
+                      if (!/^\d*\.?\d*$/.test(val)) return;
+                      // Don't allow more than balance
+                      if (walletBalance && !isNaN(Number(val)) && Number(val) > Number(walletBalance)) {
+                        val = walletBalance;
+                      }
+                      setSendAmount(val);
+                    }}
+                    step="any"
+                    placeholder="0.0"
+                    inputMode="decimal"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
                     className="w-full bg-[#181b1c] text-white text-base font-bold rounded-lg px-3 py-2 border border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-white/40"
                     style={{ appearance: 'textfield' }}
                   />
-                  <div className="flex items-center justify-between mt-1 mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="w-6 h-6 rounded-full bg-[#181b1c] flex items-center justify-center border border-yellow-400 overflow-hidden">
-                        <Image src="/peuchain-logo.jpg" alt="PEPU" width={24} height={24} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-                      </span>
-                      <span className="text-white font-semibold text-sm">PEPU</span>
-                    </div>
-                    <span className="text-white/60 text-xs">
-                      {balanceLoading ? "Loading balance..." : balanceError ? balanceError : `${Math.floor(Math.random() * 1_000_000).toLocaleString()} PEPU available`}
-                    </span>
+                  {/* Wallet balance display (Available + balance, mock style) under input */}
+                  <div className="w-full flex flex-col gap-1 mt-1 mb-2">
+                    {isConnected ? (
+                      <div className="text-xs text-white/60 text-left font-normal">
+                        Available{' '}
+                        {walletBalanceLoading ? '...' : walletBalanceError ? '-' : `${walletBalance} PEPU`}
+                      </div>
+                    ) : null}
                   </div>
                   <label className="text-white/70 text-xs mb-1 mt-2">You Receive</label>
                   <input
                     type="number"
                     min="0"
-                    value="95000"
+                    value={sendAmount === "" ? "" : (() => {
+                      const amt = Number(sendAmount);
+                      if (isNaN(amt)) return "";
+                      return (amt * 0.95).toString();
+                    })()}
                     disabled
                     className="w-full bg-[#181b1c] text-white text-base font-bold rounded-lg px-3 py-2 border border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-white/40"
                     style={{ appearance: 'textfield' }}
@@ -462,10 +515,10 @@ export default function Home() {
                     </span>
                     <span className="text-white font-semibold text-sm">PEPU</span>
                   </div>
-                </div>
+                  </div>
                 {/* CTA Button */}
                 <button className="w-full bg-[#1a2e1a] text-white font-bold py-3 rounded-xl mt-2 shadow transition cursor-not-allowed border-2 border-yellow-400" disabled>Coming Soon</button>
-              </div>
+                  </div>
             </div>
           </div>
           {/* Visual connector (background gradient or shape) */}
