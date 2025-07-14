@@ -317,16 +317,20 @@ export default function Home() {
                 </div>
               )}
               {navLinks.map((link) => (
-                link.name === 'Whitepaper' ? (
+                (link.name === 'RoadMap' || link.name === 'Whitepaper') ? (
                   <a
                     key={link.name}
                     href={link.href}
                     className="hover:text-yellow-400 transition-colors duration-200"
-                    onClick={() => setMobileNavOpen(false)}
+                    onClick={e => {
+                      e.preventDefault();
+                      setMobileNavOpen(false);
+                      router.push(link.href);
+                    }}
                   >
                     {link.name}
                   </a>
-                ) : (
+                ) : link.href.startsWith('#') ? (
                   <a
                     key={link.name}
                     href={link.href}
@@ -335,7 +339,13 @@ export default function Home() {
                       e.preventDefault();
                       setMobileNavOpen(false);
                       if (window.location.pathname !== '/') {
-                        router.push('/' + link.href);
+                        router.push('/');
+                        setTimeout(() => {
+                          const el = document.querySelector(link.href);
+                          if (el) {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }
+                        }, 100);
                       } else {
                         const el = document.querySelector(link.href);
                         if (el) {
@@ -346,7 +356,7 @@ export default function Home() {
                   >
                     {link.name}
                   </a>
-                )
+                ) : null
               ))}
             </nav>
           </div>

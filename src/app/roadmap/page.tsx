@@ -22,8 +22,8 @@ function scrollToSection(hash: string) {
 function goToSection(router: ReturnType<typeof useRouter>, hash: string) {
   router.push('/');
   setTimeout(() => {
-    window.location.hash = hash;
-  }, 50);
+    scrollToSection(hash);
+  }, 100);
 }
 
 function Roadmap() {
