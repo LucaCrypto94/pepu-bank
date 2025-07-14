@@ -351,35 +351,29 @@ export default function Whitepaper() {
               </ul>
             </div>
             <div className="bg-black/20 rounded-lg p-6 border border-purple-400/20">
-              <h3 className="text-xl font-bold text-purple-400 mb-4 text-center">👥 Team</h3>
+              <h3 className="text-xl font-bold text-purple-400 mb-4 text-center">👥 Team and Collaborations</h3>
               <ul className="space-y-3 text-white/90">
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Founder:</span> @PEPU_BANK1</span>
+                  <span><span className="font-bold text-yellow-400">Founder:</span> <a href="https://t.me/PEPU_BANK1" className="text-blue-400 hover:underline" target="_blank">@PEPU_BANK1</a></span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Co-founder:</span> @brodo_di_pollo</span>
+                  <span><span className="font-bold text-yellow-400">Admin/Investors:</span> <a href="https://t.me/CryptoConnoisseurOG" className="text-blue-400 hover:underline" target="_blank">@CryptoConnoisseurOG</a>, <a href="https://t.me/BougiesVertes" className="text-blue-400 hover:underline" target="_blank">@BougiesVertes</a>, <a href="https://t.me/REAL_VOLDEMORT" className="text-blue-400 hover:underline" target="_blank">@REAL_VOLDEMORT</a>, <a href="https://t.me/kjkqqp" className="text-blue-400 hover:underline" target="_blank">@kjkqqp</a>, <a href="https://t.me/DineroG90" className="text-blue-400 hover:underline" target="_blank">@DineroG90</a>, <a href="https://t.me/blabla0020" className="text-blue-400 hover:underline" target="_blank">@blabla0020</a></span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Admins:</span> @CryptoConnoisseurOG, @blabla0020, @covernrb</span>
+                  <span><span className="font-bold text-yellow-400">Graphic Designer:</span> <a href="https://t.me/V_for_Venom" className="text-blue-400 hover:underline" target="_blank">@V_for_Venom</a></span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Artwork:</span> @V_for_Venom</span>
+                  <span><span className="font-bold text-yellow-400">Developer:</span> <a href="https://t.me/PepuBankDev" className="text-blue-400 hover:underline" target="_blank">@PepuBankDev</a>, <a href="https://t.me/d2eakpan" className="text-blue-400 hover:underline" target="_blank">@d2eakpan</a></span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Development:</span> Anonymous (to be revealed at SuperBridge launch)</span>
+                  <span><span className="font-bold text-yellow-400">Collaborations:</span> Coin Shillers ($SHILL), Degen Time ($DGT) & Crypto Barn ($BARN)</span>
                 </li>
               </ul>
-            </div>
-            <div className="bg-black/20 rounded-lg p-6 border border-green-400/20">
-              <h3 className="text-xl font-bold text-green-400 mb-4 text-center">🤝 Collaborations</h3>
-              <p className="text-center text-white/90">
-                Actively working with L2 projects for <span className="font-bold text-yellow-400">PEPU-compatible network</span>.
-              </p>
             </div>
           </div>
         </section>
