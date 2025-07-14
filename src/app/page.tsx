@@ -371,8 +371,9 @@ export default function Home() {
               <div className="absolute" style={{ top: '22%', left: '50%', transform: 'translate(-50%, 0)', width: 270, height: 90 }}>
                <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
                  <iframe
-                   src="https://drive.google.com/file/d/1irdtTK-D-O3ErV2_8g109Mh90IfyRx37/preview"
-                   allow="autoplay"
+                   src="https://www.youtube.com/embed/TqXo3nHeeDE?si=DruYvtdLPZuSmsmS"
+                   allow="autoplay; encrypted-media"
+                   allowFullScreen
                    className="rounded-xl shadow-xl bg-black/90 animate-fade-in-up"
                    style={{ width: '100%', maxWidth: 600, height: 90, objectFit: 'cover', aspectRatio: '19/6', border: 0 }}
                    title="HOW2PENK Video"
