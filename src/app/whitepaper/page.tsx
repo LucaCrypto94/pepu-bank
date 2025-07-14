@@ -33,6 +33,15 @@ function CopyableAddress({ address }: { address: string }) {
       >
         {copied ? 'Copied!' : 'Copy'}
       </button>
+      <a
+        href="https://pumppad.gg/0x82144c93bd531e46f31033fe22d1055af17a514c"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs px-2 py-1 bg-green-400 text-black rounded hover:bg-green-300 transition border border-green-600 font-bold"
+        style={{ textDecoration: 'none' }}
+      >
+        Buy
+      </a>
     </div>
   );
 }
