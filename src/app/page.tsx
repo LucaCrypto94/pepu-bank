@@ -405,7 +405,7 @@ export default function Home() {
             </ul>
             <div className="mt-4">
               <div className="flex items-center gap-2">
-                <a href="#superbridge" className="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold px-6 py-2 rounded-full shadow hover:bg-yellow-300 transition">Bridge Assets Soon <ArrowRightLeft size={18} /></a>
+                <a href="#superbridge" className="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold px-6 py-2 rounded-full shadow hover:bg-yellow-300 transition">Bridge Assets <ArrowRightLeft size={18} /></a>
                 <span className="ml-2">
                   <Countdown targetDate={new Date('2025-07-31T23:59:00Z')} small hideComingSoon />
                 </span>
