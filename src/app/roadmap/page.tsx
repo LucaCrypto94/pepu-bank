@@ -92,8 +92,8 @@ function Roadmap() {
                   type="button"
                   className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
                 >
-                  Connect
-                </button>
+              Connect
+            </button>
               )}
             </ConnectButton.Custom>
           </div>
@@ -120,8 +120,8 @@ function Roadmap() {
                   type="button"
                   className="bg-yellow-400 text-black font-bold px-3 py-1 sm:px-4 sm:py-2 rounded-none shadow hover:bg-yellow-300 transition border-2 border-yellow-600 text-sm sm:text-base min-w-[80px] sm:min-w-[110px] tracking-wide"
                 >
-                  Connect
-                </button>
+              Connect
+            </button>
               )}
             </ConnectButton.Custom>
             {/* Fancier Hamburger: animated to X on open, staggered bars */}

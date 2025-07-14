@@ -108,18 +108,18 @@ export default function Home() {
 
   return (
     <>
-      <div
-        className="relative min-h-screen w-full bg-cover bg-center flex flex-col"
-        style={{ backgroundImage: "url('/pepubank-site-bg.jpg')" }}
-      >
-        {/* Overlay for readability */}
-        <div className="absolute inset-0 bg-black/60 z-0" />
-        {/* Responsive Header Row */}
+    <div
+      className="relative min-h-screen w-full bg-cover bg-center flex flex-col"
+      style={{ backgroundImage: "url('/pepubank-site-bg.jpg')" }}
+    >
+      {/* Overlay for readability */}
+      <div className="absolute inset-0 bg-black/60 z-0" />
+      {/* Responsive Header Row */}
         <div className="relative top-3 left-0 right-0 z-30 w-full pointer-events-auto">
-          {/* Desktop Header (logo left, nav center, connect right) */}
-          <div className="hidden sm:flex items-center w-full pointer-events-auto justify-center gap-x-60">
-            {/* Logo at far left */}
-            <div className="flex items-center">
+        {/* Desktop Header (logo left, nav center, connect right) */}
+        <div className="hidden sm:flex items-center w-full pointer-events-auto justify-center gap-x-60">
+          {/* Logo at far left */}
+          <div className="flex items-center">
         <Image
               src="/pepubank-logo.png"
               alt="Pepu Bank Logo"
@@ -190,7 +190,7 @@ export default function Home() {
                   {isConnected && address
                     ? `${address.slice(0, 6)}...${address.slice(-4)}`
                     : 'Connect'}
-                </button>
+            </button>
               )}
             </ConnectButton.Custom>
           </div>
@@ -227,7 +227,7 @@ export default function Home() {
                   {isConnected && address
                     ? `${address.slice(0, 6)}...${address.slice(-4)}`
                     : 'Connect'}
-                </button>
+            </button>
               )}
             </ConnectButton.Custom>
             {/* Fancier Hamburger: animated to X on open, staggered bars */}
@@ -330,9 +330,18 @@ export default function Home() {
               hidden: {},
               visible: { transition: { staggerChildren: 0.15 } },
             }}
-            className="flex-1 flex flex-col justify-center gap-6 z-10"
+            className="flex-1 flex flex-col justify-center gap-6 z-10 sm:flex-row sm:overflow-x-auto sm:gap-4 sm:py-2"
+            style={{
+              // On mobile, make steps horizontally scrollable and increase spacing
+              overflowX: 'auto',
+              flexDirection: 'column',
+              gap: '1.5rem',
+              paddingBottom: '0.5rem',
+              WebkitOverflowScrolling: 'touch',
+              // On small screens, switch to row layout for better visibility
+            }}
           >
-            <h2 className="text-2xl font-bold text-yellow-400 mb-2">How it works</h2>
+            <h2 className="text-2xl font-bold text-yellow-400 mb-2 sm:mb-0 sm:mr-4 min-w-[180px]">How it works</h2>
             {[
               { title: 'Visit', desc: <a href='https://pepubridge.com' className='text-yellow-400 underline' target='_blank'>pepubridge.com</a> },
               { title: 'Connect your wallet', desc: 'Use a wallet that supports custom networks.' },
@@ -347,11 +356,16 @@ export default function Home() {
                   hidden: { opacity: 0, x: -30 },
                   visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: i * 0.1 } },
                 }}
-                className="flex items-start gap-4"
+                className="flex items-start gap-4 min-w-[220px] sm:min-w-[180px] px-2 py-3 bg-[#232526] rounded-xl shadow border border-yellow-400/40 hover:bg-yellow-400/10 transition-all duration-200"
+                style={{
+                  // On mobile, make each step a card with more padding and spacing
+                  flex: '0 0 auto',
+                  marginRight: '0.5rem',
+                }}
               >
-                <span className="bg-yellow-400 text-black font-bold rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-yellow-500/60">{i+1}</span>
+                <span className="bg-yellow-400 text-black font-bold rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-yellow-500/60 text-lg">{i+1}</span>
                 <div>
-                  <span className="font-semibold">{step.title} {step.desc && <span className="block text-sm text-white/80 font-normal">{step.desc}</span>}</span>
+                  <span className="font-semibold text-base">{step.title} {step.desc && <span className="block text-sm text-white/80 font-normal">{step.desc}</span>}</span>
                 </div>
               </motion.li>
             ))}
@@ -377,7 +391,7 @@ export default function Home() {
                    className="rounded-xl shadow-xl bg-black/90 animate-fade-in-up"
                    style={{ width: '100%', maxWidth: 600, height: 90, objectFit: 'cover', aspectRatio: '19/6', border: 0 }}
                    title="HOW2PENK Video"
-                 />
+                />
                </div>
               </div>
             </div>
@@ -521,7 +535,7 @@ export default function Home() {
                       <div className="text-xs text-white/60 text-left font-normal">
                         Available{' '}
                         {walletBalanceLoading ? '...' : walletBalanceError ? '-' : `${walletBalance} PEPU`}
-                      </div>
+                  </div>
                     ) : null}
                   </div>
                   <label className="text-white/70 text-xs mb-1 mt-2">You Receive</label>
