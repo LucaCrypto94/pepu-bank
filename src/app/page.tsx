@@ -6,8 +6,9 @@ import { ArrowRightLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useBalance } from 'wagmi';
+import { useAccount } from 'wagmi';
 import { useRouter } from 'next/navigation';
+import { BsCircleFill } from 'react-icons/bs';
 
 const navLinks = [
   { name: "RoadMap", href: "/roadmap" },
@@ -25,41 +26,7 @@ const exploreLinks = [
 
 // (AnimatedNumber is not used and has been removed)
 
-// Countdown component for SuperBridge launch
-function Countdown({ targetDate, small = false, hideComingSoon = false }: { targetDate: Date, small?: boolean, hideComingSoon?: boolean }) {
-  const [timeLeft, setTimeLeft] = useState<{d:number,h:number,m:number,s:number}>({d:0,h:0,m:0,s:0});
-  const [isDone, setIsDone] = useState(false);
-  useEffect(() => {
-    let raf: number;
-    function update() {
-      const now = new Date();
-      const diff = Math.max(0, targetDate.getTime() - now.getTime());
-      const d = Math.floor(diff / (1000*60*60*24));
-      const h = Math.floor((diff / (1000*60*60)) % 24);
-      const m = Math.floor((diff / (1000*60)) % 60);
-      const s = Math.floor((diff / 1000) % 60);
-      setTimeLeft({d,h,m,s});
-      setIsDone(diff <= 0);
-      raf = requestAnimationFrame(update);
-    }
-    raf = requestAnimationFrame(update);
-    return () => cancelAnimationFrame(raf);
-  }, [targetDate]);
-  if (isDone && hideComingSoon) return null;
-  return (
-    <div className={`flex items-center gap-1 ${small ? '' : 'mt-2'}`} style={small ? { minWidth: 0 } : {}}>
-      {[{v:timeLeft.d,l:'D'},{v:timeLeft.h,l:'H'},{v:timeLeft.m,l:'M'},{v:timeLeft.s,l:'S'}].map((item, i) => (
-        <div key={i} className="flex flex-col items-center">
-          <span className={small ? "text-base font-extrabold text-white" : "text-2xl font-extrabold text-white"}>{item.v.toString().padStart(2,'0')}</span>
-          <span className={small ? "text-[10px] text-white/70 mt-0.5" : "text-xs text-white/70 mt-1"}>{item.l}</span>
-        </div>
-      ))}
-      {!isDone && !hideComingSoon && (
-        <span className="text-yellow-400 font-bold text-base ml-2">Coming Soon!</span>
-      )}
-    </div>
-  );
-}
+
 
 export default function Home() {
   const [exploreOpen, setExploreOpen] = useState(false);
@@ -67,47 +34,8 @@ export default function Home() {
   const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
   const router = useRouter();
 
-  // Token balance state
-  const [tokenBalance, setTokenBalance] = useState<string | null>(null);
-  const [balanceLoading, setBalanceLoading] = useState(true);
-  const [balanceError, setBalanceError] = useState<string | null>(null);
-  const [sendAmount, setSendAmount] = useState<string>("");
-
   // Native wallet balance (PEPU coin)
   const { address, isConnected } = useAccount();
-  const {
-    data: walletBalanceData,
-    isLoading: walletBalanceLoading,
-    error: walletBalanceError,
-  } = useBalance({
-    address,
-    chainId: 97741, // Pepe Unchained V2
-  });
-  const walletBalance = walletBalanceData ? walletBalanceData.formatted : null;
-
-  useEffect(() => {
-    async function fetchBalance() {
-      setBalanceLoading(true);
-      setBalanceError(null);
-      try {
-        const res = await fetch("/api/token-balance");
-        const data = await res.json();
-        if (res.ok && data.balance) {
-          // Convert from wei to PEPU (assume 18 decimals)
-          const formatted = (BigInt(data.balance) / 10n ** 14n).toString();
-          const display = `${Number(formatted) / 10000}`;
-          setTokenBalance(display);
-        } else {
-          setBalanceError("Error fetching balance");
-        }
-      } catch {
-        setBalanceError("Error fetching balance");
-      } finally {
-        setBalanceLoading(false);
-      }
-    }
-    fetchBalance();
-  }, []);
 
   return (
     <>
@@ -441,13 +369,13 @@ export default function Home() {
       {/* Why Pepu Bank: Unified Feature Highlight, Modern Design */}
       <section id="superbridge" className="w-full flex flex-col items-center mt-8 mb-24 animate-fade-in-up">
         <h2 className="text-3xl font-extrabold text-yellow-400 mb-10 tracking-tight text-center">Why Pepu Bank?</h2>
-        <div className="w-full max-w-5xl flex flex-col md:flex-row gap-8 items-stretch bg-[#181b1c]/80 rounded-3xl shadow-2xl p-10 relative" style={{ overflow: 'visible' }}>
+        <div className="w-full max-w-4xl flex flex-col items-center bg-[#181b1c]/80 rounded-3xl shadow-2xl p-10 relative" style={{ overflow: 'visible' }}>
           {/* Floating image OUTSIDE the container, absolutely positioned */}
-          <div className="hidden md:block" style={{ position: 'absolute', right: '-140px', top: '45%', transform: 'translateY(-50%)', zIndex: 30, pointerEvents: 'none' }}>
+          <div className="hidden md:block" style={{ position: 'absolute', right: '-140px', top: '55%', transform: 'translateY(-50%)', zIndex: 30, pointerEvents: 'none' }}>
             <Image src="/image__2_-removebg-preview.png" alt="Pepu Bank Logo" width={300} height={300} className="rounded-full shadow-2xl" />
           </div>
-          {/* Left: Text about SuperBridge, visually connected to bridge interface */}
-          <div className="flex-1 flex flex-col gap-6 justify-center z-10">
+          {/* Text about SuperBridge */}
+          <div className="flex flex-col gap-6 justify-center z-10 text-right max-w-2xl">
             <h3 className="text-xl font-bold text-white mb-2"><span className="text-yellow-400">SuperBridge</span>: The Future of Asset Movement</h3>
             <p className="text-white/80 text-base"><span className="text-yellow-400">SuperBridge</span> is Pepu Bank&#39;s next-generation cross-chain bridge, enabling seamless, secure, and lightning-fast transfers of assets between networks. With industry-leading security, low fees, and a user-friendly experience, <span className="text-yellow-400">SuperBridge</span> empowers you to move your assets with confidence.</p>
             <ul className="list-disc list-inside text-white/70 text-sm pl-2">
@@ -458,151 +386,15 @@ export default function Home() {
             </ul>
             <div className="mt-4">
               <div className="flex items-center gap-2">
-                <a href="#superbridge" className="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold px-6 py-2 rounded-full shadow hover:bg-yellow-300 transition">Bridge Assets <ArrowRightLeft size={18} /></a>
-                <span className="ml-2">
-                  <Countdown targetDate={new Date('2025-07-31T23:59:00Z')} small hideComingSoon />
+                <a href="https://superbridge.pepubank.net" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold px-6 py-2 rounded-full shadow hover:bg-yellow-300 transition">Bridge Assets <ArrowRightLeft size={18} /></a>
+                <span className="ml-2 flex items-center gap-1">
+                  <BsCircleFill className="w-2 h-2 text-green-400 animate-pulse" />
+                  <span className="text-white font-semibold text-sm">LIVE</span>
                 </span>
               </div>
             </div>
           </div>
-          {/* Right: Bridge Interface, vertically stacked */}
-          <div className="flex-1 flex flex-col gap-6 justify-center items-center md:items-end z-10">
-            <div className="w-full flex items-center justify-center">
-                <div className="w-full max-w-xs bg-[#232526] rounded-2xl shadow-lg p-6 flex flex-col gap-4 border-2 border-yellow-400">
-                <div className="w-full flex items-center justify-center mb-2">
-                  <span className="text-yellow-400 font-extrabold text-lg tracking-wide">SuperBridge</span>
-                </div>
-                {/* From/To selectors as static labels, one-way L2 to L1 only */}
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <div className="flex items-center gap-1">
-                      <span className="w-6 h-6 rounded-full bg-[#181b1c] flex items-center justify-center border border-yellow-400 overflow-hidden">
-                        <Image src="/peuchain-logo.jpg" alt="Pepe Unchained V2" width={20} height={20} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-                      </span>
-                      <span className="text-white font-semibold text-xs">From</span>
-                      <span className="text-white font-bold text-xs ml-2">Pepe Unchained V2</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between gap-1 mt-1">
-                    <div className="flex items-center gap-1">
-                      <span className="w-6 h-6 rounded-full bg-[#181b1c] flex items-center justify-center border border-yellow-400 overflow-hidden">
-                        <Image src="/ethereum-logo.png" alt="Ethereum" width={20} height={20} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-                      </span>
-                      <span className="text-white font-semibold text-xs">To</span>
-                      <span className="text-white font-bold text-xs ml-2">Ethereum</span>
-                    </div>
-                  </div>
-                </div>
-                {/* Progress bar for L1 pool balance */}
-                <div className="mb-4">
-                  {balanceLoading ? (
-                    <div className="w-full h-4 bg-[#181b1c] rounded-full border border-yellow-400 flex items-center justify-center">
-                      <span className="text-xs text-white/60">Loading pool balance...</span>
-                    </div>
-                  ) : balanceError ? (
-                    <div className="w-full h-4 bg-[#181b1c] rounded-full border border-yellow-400 flex items-center justify-center">
-                      <span className="text-xs text-red-400">{balanceError}</span>
-                    </div>
-                  ) : (
-                    (() => {
-                      const totalSupply = 35_000_000;
-                      const balance = Number(tokenBalance || 0);
-                      const percent = Math.min(100, (balance / totalSupply) * 100);
-                      return (
-                        <div className="w-full flex flex-col gap-1">
-                          <div className="relative w-full h-4 bg-[#181b1c] rounded-full border border-yellow-400 overflow-hidden">
-                            <div
-                              className="absolute left-0 top-0 h-full bg-green-500"
-                              style={{ width: `${percent}%`, transition: 'width 0.5s' }}
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <span className="text-xs font-bold text-black drop-shadow" style={{ textShadow: '0 1px 2px #fff8' }}>{percent.toFixed(2)}%</span>
-                  </div>
-                  </div>
-                          <div className="flex justify-between text-xs text-white/60 mt-0.5">
-                            <span>0</span>
-                            <span>35,000,000</span>
-                  </div>
-                          <div className="text-xs text-white/80 text-center font-semibold mt-1">
-                            SuperBridge Pool: {balance.toLocaleString()} PEPU
-                  </div>
-            </div>
-                      );
-                    })()
-                  )}
-                  </div>
-                {/* Amount input */}
-                <div className="flex flex-col gap-1">
-                  <label className="text-white/70 text-xs mb-1">You Send</label>
-                  {/* Show connect wallet message if not connected */}
-                  {!isConnected && (
-                    <div className="text-xs text-red-500 text-center font-semibold mb-2">
-                      Connect wallet to enter amount
-                    </div>
-                  )}
-                  <input
-                    type="number"
-                    min="0"
-                    value={isConnected ? sendAmount : ""}
-                    onChange={isConnected ? (e => {
-                      let val = e.target.value;
-                      // Allow empty
-                      if (val === "") {
-                        setSendAmount("");
-                        return;
-                      }
-                      // Only allow numbers
-                      if (!/^\d*\.?\d*$/.test(val)) return;
-                      // Don't allow more than balance
-                      if (walletBalance && !isNaN(Number(val)) && Number(val) > Number(walletBalance)) {
-                        val = walletBalance;
-                      }
-                      setSendAmount(val);
-                    }) : undefined}
-                    step="any"
-                    placeholder="0.0"
-                    inputMode="decimal"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    spellCheck={false}
-                    className="w-full bg-[#181b1c] text-white text-base font-bold rounded-lg px-3 py-2 border border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-white/40 disabled:bg-[#181b1c]/60 disabled:text-white/40"
-                    style={{ appearance: 'textfield' }}
-                    disabled={!isConnected}
-                  />
-                  {/* Wallet balance display (Available + balance, mock style) under input */}
-                  <div className="w-full flex flex-col gap-1 mt-1 mb-2">
-                    {isConnected ? (
-                      <div className="text-xs text-white/60 text-left font-normal">
-                        Available{' '}
-                        {walletBalanceLoading ? '...' : walletBalanceError ? '-' : `${walletBalance} PEPU`}
-                  </div>
-                    ) : null}
-                  </div>
-                  <label className="text-white/70 text-xs mb-1 mt-2">You Receive</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={sendAmount === "" ? "" : (() => {
-                      const amt = Number(sendAmount);
-                      if (isNaN(amt)) return "";
-                      return (amt * 0.95).toString();
-                    })()}
-                    disabled
-                    className="w-full bg-[#181b1c] text-white text-base font-bold rounded-lg px-3 py-2 border border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 placeholder-white/40"
-                    style={{ appearance: 'textfield' }}
-                  />
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="w-6 h-6 rounded-full bg-[#181b1c] flex items-center justify-center border border-yellow-400 overflow-hidden">
-                      <Image src="/peuchain-logo.jpg" alt="PEPU" width={24} height={24} style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-                    </span>
-                    <span className="text-white font-semibold text-sm">PEPU</span>
-                  </div>
-                  </div>
-                {/* CTA Button */}
-                <button className="w-full bg-[#1a2e1a] text-white font-bold py-3 rounded-xl mt-2 shadow transition cursor-not-allowed border-2 border-yellow-400" disabled>Coming Soon</button>
-                  </div>
-            </div>
-          </div>
+
           {/* Visual connector (background gradient or shape) */}
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 via-transparent to-yellow-400/5 pointer-events-none rounded-3xl" />
         </div>
@@ -621,10 +413,9 @@ export default function Home() {
           className="w-full max-w-5xl flex flex-col gap-8 items-start"
         >
           {[
-            { q: "What is Pepu Bank?", a: "Pepu Bank is a platform for bridging, buying, and exploring the PEPU ecosystem with advanced tools like SuperBridge." },
-            { q: "How do I use SuperBridge?", a: "Connect your wallet, select the amount and network, and confirm the transaction. Your assets will be bridged instantly." },
+            { q: "What is Pepu Bank?", a: "Pepu Bank is a platform for buying and exploring the PEPU ecosystem with exclusive services and community features." },
             { q: "Is Pepu Bank secure?", a: "Yes, we use industry-leading security practices and 24/7 monitoring to keep your assets safe." },
-            { q: "What networks are supported?", a: "Currently, bridging is available exclusively to Pepe Unchained V2, offering fast transactions and low fees. Additional Layer 2 networks will be added in the future." },
+            { q: "What networks are supported?", a: "We support Pepe Unchained V2 for fast, low-fee transactions. Our SuperBridge enables seamless transfers between L2 and Ethereum Mainnet, while Penk Market provides trading for Ethereum Mainnet assets. More networks coming soon!" },
             { q: "Where can I get support?", a: "Join our community on Telegram or contact us via the support page for help anytime." },
           ].map((item, i) => (
             <motion.div
