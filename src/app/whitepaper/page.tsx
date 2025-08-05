@@ -475,7 +475,7 @@ export default function Whitepaper() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Collaborations:</span> Coin Shillers ($SHILL), Degen Time ($DGT) & Crypto Barn ($BARN)</span>
+                  <span><span className="font-bold text-yellow-400">Collaborations:</span>Degen Time ($DGT) & Crypto Barn ($BARN)</span>
                 </li>
               </ul>
             </div>
