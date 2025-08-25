@@ -463,7 +463,7 @@ export default function Whitepaper() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Admin/Investors:</span> <a href="https://t.me/CryptoConnoisseurOG" className="text-blue-400 hover:underline" target="_blank">@CryptoConnoisseurOG</a>, <a href="https://t.me/BougiesVertes" className="text-blue-400 hover:underline" target="_blank">@BougiesVertes</a>, <a href="https://t.me/REAL_VOLDEMORT" className="text-blue-400 hover:underline" target="_blank">@REAL_VOLDEMORT</a>, <a href="https://t.me/DineroG90" className="text-blue-400 hover:underline" target="_blank">@DineroG90</a>, <a href="https://t.me/blabla0020" className="text-blue-400 hover:underline" target="_blank">@blabla0020</a></span>
+                  <span><span className="font-bold text-yellow-400">Admin/Investors:</span> <a href="https://t.me/CryptoConnoisseurOG" className="text-blue-400 hover:underline" target="_blank">@CryptoConnoisseurOG</a>, <a href="https://t.me/BougiesVertes" className="text-blue-400 hover:underline" target="_blank">@BougiesVertes</a>, <a href="https://t.me/REAL_VOLDEMORT" className="text-blue-400 hover:underline" target="_blank">@REAL_VOLDEMORT</a>, <a href="https://t.me/DineroG90" className="text-blue-400 hover:underline" target="_blank">@DineroG90</a></span>
                 </li>
 
                 <li className="flex items-start">
@@ -472,7 +472,7 @@ export default function Whitepaper() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Collaborations:</span>Degen Time ($DGT) & Crypto Barn ($BARN)</span>
+                  <span><span className="font-bold text-yellow-400">Collaborations:</span>Degen Time ($DGT)</span>
                 </li>
               </ul>
             </div>
