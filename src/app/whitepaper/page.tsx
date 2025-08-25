@@ -463,12 +463,9 @@ export default function Whitepaper() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Admin/Investors:</span> <a href="https://t.me/CryptoConnoisseurOG" className="text-blue-400 hover:underline" target="_blank">@CryptoConnoisseurOG</a>, <a href="https://t.me/BougiesVertes" className="text-blue-400 hover:underline" target="_blank">@BougiesVertes</a>, <a href="https://t.me/REAL_VOLDEMORT" className="text-blue-400 hover:underline" target="_blank">@REAL_VOLDEMORT</a>, <a href="https://t.me/kjkqqp" className="text-blue-400 hover:underline" target="_blank">@kjkqqp</a>, <a href="https://t.me/DineroG90" className="text-blue-400 hover:underline" target="_blank">@DineroG90</a>, <a href="https://t.me/blabla0020" className="text-blue-400 hover:underline" target="_blank">@blabla0020</a></span>
+                  <span><span className="font-bold text-yellow-400">Admin/Investors:</span> <a href="https://t.me/CryptoConnoisseurOG" className="text-blue-400 hover:underline" target="_blank">@CryptoConnoisseurOG</a>, <a href="https://t.me/BougiesVertes" className="text-blue-400 hover:underline" target="_blank">@BougiesVertes</a>, <a href="https://t.me/REAL_VOLDEMORT" className="text-blue-400 hover:underline" target="_blank">@REAL_VOLDEMORT</a>, <a href="https://t.me/DineroG90" className="text-blue-400 hover:underline" target="_blank">@DineroG90</a>, <a href="https://t.me/blabla0020" className="text-blue-400 hover:underline" target="_blank">@blabla0020</a></span>
                 </li>
-                <li className="flex items-start">
-                  <span className="text-purple-400 mr-3 mt-1">•</span>
-                  <span><span className="font-bold text-yellow-400">Graphic Designer:</span> <a href="https://t.me/V_for_Venom" className="text-blue-400 hover:underline" target="_blank">@V_for_Venom</a></span>
-                </li>
+
                 <li className="flex items-start">
                   <span className="text-purple-400 mr-3 mt-1">•</span>
                   <span><span className="font-bold text-yellow-400">Developer:</span> <a href="https://t.me/PepuBankDev" className="text-blue-400 hover:underline" target="_blank">@PepuBankDev</a>, <a href="https://t.me/d2eakpan" className="text-blue-400 hover:underline" target="_blank">@d2eakpan</a></span>
@@ -670,7 +667,7 @@ export default function Whitepaper() {
             <div className="bg-black/20 rounded-lg p-6 border border-yellow-400/20">
               <ul className="list-disc list-inside space-y-2 text-white/90">
                 <li><a href="https://x.com/PepuBank" target="_blank" rel="noopener noreferrer" className="text-yellow-300 underline hover:text-yellow-400">x.com/PepuBank</a></li>
-                <li><a href="https://t.me/Pepu_BANK" target="_blank" rel="noopener noreferrer" className="text-yellow-300 underline hover:text-yellow-400">t.me/Pepu_BANK</a></li>
+                <li><a href="https://t.me/PenkSpring" target="_blank" rel="noopener noreferrer" className="text-yellow-300 underline hover:text-yellow-400">t.me/PenkSpring</a></li>
               </ul>
             </div>
           </div>

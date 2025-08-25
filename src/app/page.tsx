@@ -461,7 +461,7 @@ export default function Home() {
           {/* Community */}
           <div className="flex flex-col gap-2">
             <span className="text-yellow-400 font-bold mb-2">Community</span>
-            <a href="https://t.me/Pepu_BANK" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-yellow-400 transition">Telegram</a>
+            <a href="https://t.me/PenkSpring" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-yellow-400 transition">Telegram</a>
             <a href="https://x.com/PepuBank" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-yellow-400 transition">X</a>
             <a href="https://www.instagram.com/pepubank?igsh=c2FndHNubGk4Zzk2" target="_blank" rel="noopener noreferrer" className="text-white/80 hover:text-yellow-400 transition">Instagram</a>
           </div>
